@@ -1,0 +1,60 @@
+@use 'sass:map';
+@use '~@angular/material' as mat;
+
+@mixin datasource-cite-component($theme) {
+    $color-config: mat.get-color-config($theme);
+    $accent-palette: map.get($color-config, "accent");
+
+    .cite-comp-container {
+        display: flex;
+        flex-direction: column;
+        // align-items: center;
+
+        .title-row {
+            width: 100%;
+            display: flex;
+            flex-direction: row;
+
+            .filler {
+                flex-grow: 1;
+            }
+
+            .copy-button {
+                display: block;
+                flex: 0 0 auto;
+                height: 24px;
+                width: 24px;
+                margin-left: 0.5em;
+
+                mat-icon {
+                   height: 100%;
+                   width: 100%;
+
+                   font-size: inherit;
+                   font-weight: inherit;
+                   line-height: inherit;
+                }
+            }
+        }
+
+        &:hover {
+            .copy-button {
+                display: block;
+            }
+        }
+
+        .cite-string {
+            flex: 1;
+            cursor: pointer;
+            font-size: 14px;
+
+            // background-color: mat.get-color-from-palette($accent-palette);
+            margin-bottom: 0;
+            // padding: 1em;
+
+            max-width: 100%;
+            overflow-wrap: anywhere;
+            white-space: break-spaces;
+        }
+    }
+}

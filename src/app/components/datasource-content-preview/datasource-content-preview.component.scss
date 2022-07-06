@@ -1,0 +1,99 @@
+@use "sass:map";
+@use "~@angular/material" as mat;
+
+@mixin datasource-content-preview-component($theme) {
+    $color-config: mat.get-color-config($theme);
+    $primary-palette: map.get($color-config, "primary");
+    $background-palette: map.get($color-config, "background");
+    $foreground-palette: map.get($color-config, "foreground");
+
+    .datasource-content-preview-component {
+        height: 100%;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        background-color: mat.get-color-from-palette($background-palette, "background");
+        color: map.get($foreground-palette, "text");
+
+        .header {
+            display: flex;
+
+            .title {
+                display: flex;
+                align-items: center;
+
+                flex: 1;
+                overflow: hidden;
+                font-size: 20px;
+
+                .icon {
+                    margin-right: 0.5em;
+                }
+
+                .text {
+                    text-overflow: ellipsis;
+                    max-width: calc(100% - (24px + 0.5em));
+                    overflow: hidden;
+                }
+
+                .lfs {
+                    color: teal;
+                    margin: 0 1em;
+                }
+            }
+
+            @media (max-width: 500px) {
+                .source-button {
+                    display: none;
+                }
+            }
+        }
+
+        .lfs-info-container {
+            // width: 85%;
+            // max-height: 100%;
+
+            // .title {
+            //     display: flex;
+            //     align-items: center;
+
+            //     .icon.sad-face {
+            //         font-size: 1.25em;
+            //         line-height: 48px;
+            //         height: 48px;
+            //         width: 48px;
+            //         margin-left: 8px;
+            //     }
+            // }
+        }
+
+        .no-preview-available {
+            width: 85%;
+            max-height: 100%;
+
+            .title {
+                display: flex;
+                align-items: center;
+
+                .icon.sad-face {
+                    font-size: 1.25em;
+                    line-height: 48px;
+                    height: 48px;
+
+                    width: 48px;
+                    margin-left: 8px;
+                }
+            }
+        }
+
+        .preview-container {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100%;
+            width: 100%;
+            overflow-y: auto;
+        }
+    }
+}

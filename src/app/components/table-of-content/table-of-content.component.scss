@@ -1,0 +1,85 @@
+@use "sass:map";
+@use "sass:math";
+@use "~@angular/material" as mat;
+
+@mixin toc-component($theme) {
+    $color-config: mat.get-color-config($theme);
+    $primary-palette: map.get($color-config, "primary");
+
+    .tree-invisible {
+        display: none;
+    }
+
+    .flex-break {
+        flex-basis: 100%;
+        height: 0;
+    }
+
+    .toc {
+        padding-top: 0;
+
+        .toc-item {
+            display: flex;
+            flex-wrap: wrap;
+            margin-bottom: 8px;
+            // position: relative;
+            align-items: center;
+
+            &.active {
+                > div > .toc-item-link {
+                    color: mat.get-color-from-palette($primary-palette);
+                    font-weight: bold;
+                }
+
+                > .active-indicator {
+                    background-color: mat.get-color-from-palette($primary-palette);
+                }
+            }
+
+            .toc-item-icon {
+                margin-left: -0.25em;
+            }
+
+            .toggle-button {
+            }
+
+            .link-container {
+                max-width: calc(100% - 13px);
+                flex: 1 0 100%;
+                // margin-bottom: 8px;
+                display: flex;
+                align-items: center;
+                // box-sizing: border-box;
+            }
+
+            .child-container {
+                width: 100%;
+                margin-top: 8px;
+                padding-left: 16px;
+            }
+
+            .active-indicator {
+                // display: none;
+                width: 5px;
+                height: 32px;
+                margin-right: 8px;
+                // left: -38px;
+                // position: absolute;
+                background-color: transparent;
+            }
+
+            .toc-item-link {
+                color: inherit;
+                text-decoration: inherit;
+            }
+        }
+
+        .toc-item:first-child {
+            // margin-top: -0.75em;
+        }
+    }
+}
+
+::ng-deep mat-list mat-list-item.toc-item .mat-list-item-content {
+    padding: 0 !important;
+}

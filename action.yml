@@ -1,0 +1,37 @@
+name: "Bulid and deploy Opendata-Website"
+description: "Die Action "Bulid and deploy Opendata-Website" erzeugt und deployed eine Datensatz Website des aufrufenden Datensatz-Repositories"
+inputs:
+  GH_TOKEN:
+    description: "Github token"
+    default: $
+    required: true
+  WEBSITE_BRANCH:
+    description: "Branch to deploy the website"
+    default: "opendata-website"
+    required: false
+runs:
+  using: "composite"
+  steps:
+    - name: Pull OpenDataPage
+      uses: actions/checkout@v2
+      with:
+        repository: "robert-koch-institut/OpenData-Website"
+
+    - name: Create datasource.json
+      uses: ./createDatasourceJsonAction
+      with:
+        GH_TOKEN: ${{inputs.GH_TOKEN}}
+
+    - name: Setup Node.js environment
+      uses: actions/setup-node@v2.5.1
+      with:
+        node-version: 14.x
+
+    - name: Prepare and deploy
+      env:
+        GH_TOKEN: ${{inputs.GH_TOKEN}}
+      run: |
+        cd $GITHUB_WORKSPACE
+        npm install
+        npm run ng -- deploy --repo=https://github.com/$GITHUB_REPOSITORY.git --base-href=/${GITHUB_REPOSITORY#*/}/ --branch=${{inputs.WEBSITE_BRANCH}} --name=${GITHUB_ACTOR} --email=${GITHUB_ACTOR}@users.noreply.github.com
+      shell: bash

@@ -1,0 +1,52 @@
+@use 'sass:map';
+@use 'sass:color';
+@use '~@angular/material' as mat;
+
+@mixin datasource-contributor-list-component($theme) {
+    $color-config: mat.get-color-config($theme);
+    $accent-palette: map.get($color-config, "accent");
+
+    .contrib-container {
+        .contrib {
+            .contrib-role {
+                background: color.scale(mat.get-color-from-palette($accent-palette), $alpha: -20%);
+                color: mat.get-color-from-palette($accent-palette, "default-contrast");
+            }
+        }
+    }
+}
+
+.name-container {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 0.25em 1.25em;
+}
+
+.contrib-title {
+    font: 800 16px / 28px Roboto, "Helvetica Neue", sans-serif;
+    letter-spacing: normal;
+}
+
+.contrib-container {
+    
+    .contrib {
+        position: relative;
+        
+        .contrib-role {
+            position: absolute;
+            top: 1.25em;
+
+            
+            padding: 8px 12px;
+            
+            z-index: 10;
+        }
+    }
+}
+
+.author-container {
+    .author {
+        font: 800 16px / 28px Roboto, "Helvetica Neue", sans-serif;
+    }
+}

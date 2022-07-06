@@ -1,0 +1,30 @@
+@use '@angular/material' as mat;
+@use 'sass:map';
+
+@import "/src/palettes.scss";
+
+@mixin datasource-tags-component($theme) {
+    $color-config: mat.get-color-config($theme);
+    // @debug $rki-nebel;
+
+    .tag-list {
+
+        // mat-chip.mat-chip.tag-chip {
+            
+        // }
+
+        .tag-chip {
+            // @include mat.elevation(1);
+            border-radius: 3px;
+            flex: 1 1 auto;
+            background-color: mat.get-color-from-palette($rki-nebel);
+        }
+
+        .tag-link {
+            text-decoration: inherit;
+            color: inherit;
+            font-weight: 400;
+            white-space: nowrap;
+        }
+    }
+}

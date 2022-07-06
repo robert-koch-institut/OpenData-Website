@@ -1,0 +1,11 @@
+<div class="mat-title" id="tags">Schlagwörter</div>
+<mat-chip-list class="tag-list" [selectable]="false" *ngIf="datasource">
+
+    <mat-chip *ngFor="let tag of (showAll ? datasource.tags : (datasource.tags | slice:0:amount))" [selectable]="false" class="tag-chip">
+        <a class="tag-link" [href]="'https://zenodo.org/search?q=keywords:%22' + tag + '%22'"
+            target="_blank">{{tag}}</a>
+    </mat-chip>
+    <mat-chip *ngIf="!showAll && datasource.tags.length > amount" class="tag-chip" (click)="showAll = true">
+        +{{datasource.tags.length - amount}} mehr...
+    </mat-chip>
+</mat-chip-list>

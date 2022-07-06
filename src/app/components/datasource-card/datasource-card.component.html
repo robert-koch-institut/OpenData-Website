@@ -1,0 +1,61 @@
+<mat-card class="datasource-card" *ngIf="datasource">
+  <mat-card-header>
+    <mat-card-title>
+      <div class="card-title-container">
+        <a class="card-title" [title]="datasource.name"
+          [routerLink]="['/datensatz/', datasource.id]">{{datasource.name}}</a>
+        <app-datasource-licence [datasource]="datasource"></app-datasource-licence>
+        <!-- <mat-chip-list *ngIf="datasource.licence" class="licence-chip-list">
+          <mat-chip color="primary" selected>{{datasource.licence}}</mat-chip>
+        </mat-chip-list> -->
+        <span class="horizontal-spacer"></span>
+
+        <!-- <a mat-button *ngFor="let link of datasource.externalLinks" [href]="link.url" target="_blank">
+          <ng-container [ngSwitch]="link.iconName !== undefined">
+            <mat-icon *ngSwitchCase="true" [title]="link.title" [ngClass]="link.iconClass ? link.iconClass : ''" [svgIcon]="link.iconName!">
+            </mat-icon>
+            <ng-container *ngSwitchDefault>{{link.title}}</ng-container>
+          </ng-container>
+        </a> -->
+
+      </div>
+    </mat-card-title>
+    <mat-card-subtitle>
+      <span class="description" [title]="datasource.description">{{datasource.description}}</span>
+      <!-- <span *ngIf="datasource.description && datasource.description.length > 300">...</span> -->
+    </mat-card-subtitle>
+  </mat-card-header>
+  <mat-card-content>
+    <!-- <div fxLayout="row wrap" fxLayoutAlign="space-around">
+      <div fxLayout="column wrap" class="data-item">
+        <mat-icon>bar_chart</mat-icon>
+        <span>Daten</span>
+      </div>
+
+      <div fxLayout="column wrap" class="data-item" (click)="showPreview(datasource.documentationMdUrl)">
+        <mat-icon>description</mat-icon>
+        <span>Dokumentation</span>
+      </div>
+
+      <div fxLayout="column wrap" class="data-item">
+        <mat-icon>article</mat-icon>
+        <span>Publikation</span>
+      </div>
+    </div> -->
+    <app-datasource-tags class="card-content-margin" [datasource]="datasource"></app-datasource-tags>
+    <!-- <mat-chip-list class="card-margin">
+      <mat-chip *ngFor="let tag of datasource.tags">{{tag}}</mat-chip>
+    </mat-chip-list> -->
+    <!-- <div *ngIf="download$ | async">
+      DOWNLOADING...
+    </div> -->
+    <app-datasource-content-list class="card-content-margin" [datasource]="datasource"></app-datasource-content-list>
+
+  </mat-card-content>
+</mat-card>
+
+
+<!-- 
+<ng-template #iconButtonPlaceholder>
+  <div class="icon-button-placeholder"></div>
+</ng-template> -->

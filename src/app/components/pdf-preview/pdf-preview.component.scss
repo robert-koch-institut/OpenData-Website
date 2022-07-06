@@ -1,0 +1,28 @@
+:host {
+  display: block;
+  height: 100%;
+  width: 100%;
+}
+
+.pdf-container {
+  display: flex;
+  flex-direction: row;
+  max-height: 100%;
+  height: 100%;
+  max-width: 100%;
+  width: 100%;
+  position: relative;
+
+  .pdf-viewer {
+    flex: 1 1 100%;
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
+
+::ng-deep pdf-viewer {
+  // section.linkAnnotation {
+  //   min-height: unset;
+  //   padding: unset;
+  // }
+}

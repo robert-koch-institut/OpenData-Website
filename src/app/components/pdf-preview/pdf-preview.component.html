@@ -1,0 +1,6 @@
+<div class="pdf-container">
+  <pdf-viewer [src]="pdfSrc" [render-text]="true" class="pdf-viewer" (after-load-complete)="isLoading = false"></pdf-viewer>
+
+  <app-loading-indicator *ngIf="isLoading" text="Lade Vorschau..."></app-loading-indicator>
+</div>
+

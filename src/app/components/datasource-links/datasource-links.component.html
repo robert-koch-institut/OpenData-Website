@@ -1,0 +1,10 @@
+<!-- <h2 class="mat-title" id="links">Datenquellen</h2> -->
+<div class="datasource-link-component link-container" *ngIf="datasource">
+    <!-- <div class="link-wrapper" *ngFor="let link of datasource.externalLinks">
+        <a class="link external-link" [ngClass]="link.$type + '-link'" [href]="link.url" target="_blank"></a>
+    </div> -->
+
+    <a mat-raised-button color="accent" *ngFor="let link of datasource.externalLinks" class="link external-link"  [href]="link.url" target="_blank">
+        <div class="link-logo" [ngClass]="link.$type + '-link'"></div>
+    </a>
+</div>

@@ -1,0 +1,42 @@
+@use '@angular/material' as mat;
+@use 'sass:map';
+
+@mixin datasource-licence-component($theme) {
+    $color-config: mat.get-color-config($theme);
+    $accent-palette: map.get($color-config, "accent");
+
+    .datasource-licence {
+        mat-chip {
+            &.licence-chip {
+                border-radius: 0 !important;
+                @include mat.elevation(2);
+            }
+
+            .licence-link {
+                color: inherit;
+                text-decoration: inherit;
+
+                font-size: 20px;
+                font-weight: 1000;
+            }
+        }
+
+        .licence-large > a {
+            display: flex;
+            align-items: center;
+            // justify-content: space-evenly;
+
+            color: inherit;
+            text-decoration: inherit;
+
+            // padding: 1em;
+            font-size: 14px;
+            // background-color: mat.get-color-from-palette($accent-palette);
+
+            .licence-logo {
+                height: 1.25em;
+                margin-right: 0.75em;
+            }
+        }
+    }
+}

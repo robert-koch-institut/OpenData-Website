@@ -1,0 +1,39 @@
+.content {
+    display: flex;
+    max-width: 100%;
+}
+
+// .datasource-page{
+//     padding: 15px;
+    
+//     .link-container {
+//         display: flex;
+//         flex-direction: row;
+
+//         .link,
+//         .external-link {
+//             height: 64px;
+//             background-size: contain;
+//             background-repeat: no-repeat;
+//         }
+
+//         .github-link {
+//             width: 64px;
+//             // @if $is-dark {
+//             //     background-image: url("/assets/github-mark-light-64px.png");
+//             // } @else {
+//                 background-image: url("../assets/github-mark-64px.png");
+//             // }
+//         }
+
+//         .zenodo-link {
+//             width: 156px;
+            
+//             // @if $is-dark {
+//             //     background-image: url("/assets/zenodo_logo_white.svg");
+//             // } @else {
+//                 background-image: url("../assets/zenodo_logo.svg");
+//             // }
+//         }
+//     }
+// }

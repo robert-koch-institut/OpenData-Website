@@ -1,0 +1,124 @@
+<div class="datasource-layout-comp" [class.datasource-layout-small]="isSmallWidth$ | async">
+    <div class="header">
+        <div class="header-image-background">
+            <div class="title-container">
+                <div class="title">
+                    <ng-template [cdkPortalOutlet]="portalsByPosition['title'] | async"></ng-template>
+                </div>
+                <div class="licence-small">
+                    <ng-template [cdkPortalOutlet]="portalsByPosition['licence-small'] | async"></ng-template>
+                </div>
+            </div>
+
+            <div class="author-container">
+                <ng-template [cdkPortalOutlet]="portalsByPosition['authors'] | async"></ng-template>
+            </div>
+
+            <div class="contributor-container">
+                <ng-template [cdkPortalOutlet]="portalsByPosition['contributors'] | async"></ng-template>
+            </div>
+        </div>
+
+    </div>
+    <div class="main">
+
+        <div *ngIf="isSmallWidth$ | async; else wideATC" class="abstract-tag-cite-container-small">
+
+            <div class="abstract-container section-container">
+                <ng-template [cdkPortalOutlet]="portalsByPosition['abstract'] | async"></ng-template>
+            </div>
+            <div class="tag-cite-link-container">
+                <div class="two-col-layout">
+                    <div class="left-column">
+                        <div class="tag-container section-container">
+                            <ng-template [cdkPortalOutlet]="portalsByPosition['tag'] | async"></ng-template>
+                        </div>
+                    </div>
+                    <div class="right-column">
+                        <div class="cite-container section-container">
+                            <ng-template [cdkPortalOutlet]="portalsByPosition['cite'] | async"></ng-template>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="two-col-layout">
+                    <div class="left-column">
+                        <div class="licence-container section-container">
+                            <ng-template [cdkPortalOutlet]="portalsByPosition['licence'] | async"></ng-template>
+                        </div>
+                    </div>
+                    <div class="right-column">
+                        <div class="links-container section-container">
+                            <ng-template [cdkPortalOutlet]="portalsByPosition['links'] | async"></ng-template>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <ng-template #wideATC>
+            <div class="abstract-tag-container">
+                <div class="left-column">
+                    <div class="abstract-container">
+                        <ng-template [cdkPortalOutlet]="portalsByPosition['abstract'] | async"></ng-template>
+                    </div>
+                </div>
+                <div class="right-column">
+                    <ng-template [cdkPortalOutlet]="portalsByPosition['tag'] | async"></ng-template>
+                </div>
+            </div>
+
+            <div class="content-cite-licence-container">
+                
+            </div>
+
+            <!-- <div class="abstract-tag-cite-container">
+                <div class="left-column">
+                    <div class="abstract-container section-container">
+                        
+                    </div>
+                    <div class="content-container section-container">
+                        <ng-template [cdkPortalOutlet]="portalsByPosition['content'] | async"></ng-template>
+                    </div>
+                    <div class="doc-container section-container">
+                        <ng-template [cdkPortalOutlet]="portalsByPosition['doc'] | async"></ng-template>
+                    </div>
+                </div>
+                <div class="right-column">
+                    <div class="tag-container section-container">
+                        
+                    </div>
+
+                    <mat-divider></mat-divider>
+
+                    <div class="cite-container section-container">
+                        <ng-template [cdkPortalOutlet]="portalsByPosition['cite'] | async"></ng-template>
+                    </div>
+
+                    <mat-divider></mat-divider>
+
+                    <div class="licence-container section-container">
+                        <ng-template [cdkPortalOutlet]="portalsByPosition['licence'] | async"></ng-template>
+                    </div>
+
+                    <mat-divider></mat-divider>
+
+                    <div class="links-container section-container">
+                        <ng-template [cdkPortalOutlet]="portalsByPosition['links'] | async"></ng-template>
+                    </div>
+
+                    <mat-divider></mat-divider>
+
+                    <div class="toc-container section-container">
+                        <app-keep-in-view>
+                            <ng-template [cdkPortalOutlet]="portalsByPosition['toc'] | async"></ng-template>
+                        </app-keep-in-view>
+                    </div>
+                </div>
+            </div> -->
+        </ng-template>
+
+
+
+    </div>
+</div>

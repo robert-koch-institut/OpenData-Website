@@ -1,0 +1,139 @@
+// Custom Theming for Angular Material
+// For more information: https://material.angular.io/guide/theming
+@use '~@angular/material' as mat;
+@use 'sass:map';
+
+// Plus imports for other components in your app.
+@import "app/components/datasource-content-preview/datasource-content-preview.component.scss";
+@import "app/components/datasource-readme/datasource-readme.component.scss";
+@import "app/components/image-preview/image-preview.component.scss";
+@import "app/components/markdown-preview/markdown-preview.component.scss";
+@import "app/components/datasource-cite/datasource-cite.component.scss";
+@import "app/components/datasource-contributor-list/datasource-contributor-list.component.scss";
+@import "app/components/datasource-layout/datasource-layout.component.scss";
+@import "app/components/datasource-links/datasource-links.component.scss";
+@import "app/components/datasource-licence/datasource-licence.component.scss";
+@import "app/components/datasource-tags/datasource-tags.component.scss";
+@import "app/components/table-of-content/table-of-content.component.scss";
+@import "app/pages/home-page/home-page.component.scss";
+@import "fonts.scss";
+@import "palettes.scss";
+
+$subheading-2-fontsize: 16px;
+$subheading-2-lineheight: 24px;
+$subheading-2-fontweight: 500;
+
+$git-foreground: #24292f;
+$git-font-family: '-apple-system,  BlinkMacSystemFont,  "Segoe UI",  Helvetica,  Arial,  sans-serif,  "Apple Color Emoji",  "Segoe UI Emoji"';
+$git-typography: mat.define-typography-config(
+  $font-family: $git-font-family,
+  $headline: mat.define-typography-level(32px, 48px, 700),
+  $title: mat.define-typography-level(24px, 32px, 600),
+  $subheading-2: mat.define-typography-level($subheading-2-fontsize, $subheading-2-lineheight, $subheading-2-fontweight),
+  $body-1: mat.define-typography-level(16px, 1.5, 400),
+);
+
+
+// Include the common styles for Angular Material. We include this here so that you only
+// have to load a single css file for Angular Material in your app.
+// Be sure that you only ever include this mixin once!
+@include mat.core($git-typography);
+
+.mat-subheading-2 {
+  margin-bottom: 0px;
+}
+
+.subheading-2-fontsize {
+  font-size: $subheading-2-fontsize !important;
+  line-height: $subheading-2-lineheight !important;
+  font-weight: $subheading-2-fontweight !important;
+}
+
+// Create the theme object. A theme consists of configurations for individual
+// theming systems such as "color" or "typography".
+$rki-theme: mat.define-light-theme(
+  (
+    color: (
+      primary: $rki-primary,
+      accent: $rki-accent,
+      warn: $rki-warn,
+    ),
+    typography: $git-typography,
+  )
+);
+
+@function git-foreground() {
+  @return (base: $git-foreground, divider: $git-foreground, dividers: $git-foreground);
+}
+$theme: map-merge(
+  $rki-theme,
+  (
+    foreground: git-foreground(),
+  )
+);
+
+
+// Include theme styles for core and each component used in your app.
+// Alternatively, you can import and @include the theme mixins for each component
+// that you are using.
+@include mat.all-component-themes($theme);
+
+@include datasource-content-preview-component($theme);
+@include datasource-readme-component($theme);
+@include image-preview-component($theme);
+@include markdown-preview-component($theme);
+@include datasource-cite-component($theme);
+@include datasource-layout-component($theme);
+@include datasource-contributor-list-component($theme);
+@include home-page-component($theme);
+@include datasource-links-component($theme);
+@include datasource-licence-component($theme);
+@include datasource-tags-component($theme);
+@include toc-component($theme);
+
+/* You can add global styles to this file, and also import other style files */
+
+html,
+body {
+  padding: 0;
+  margin: 0;
+}
+
+html.cdk-global-scrollblock {
+  overflow: hidden;
+}
+
+body {
+  max-width: 100%;
+  overflow-x: hidden;
+  overflow-y: auto;
+
+  font-family: $git-font-family;
+  color: $git-foreground;
+
+  &.noScroll {
+    overflow: hidden;
+  }
+}
+
+.overlay-dialog-panel {
+  background-color: white;
+  width: 80vw;
+  height: 85vh;
+  max-width: 80vw;
+  max-height: 85vh;
+
+  & > * {
+    width: 100%;
+    height: 100%;
+  }
+}
+
+@media (max-width: 700px) {
+  .overlay-dialog-panel {
+    width: 92vw;
+    height: 87vh;
+    max-width: 92vw;
+    max-height: 87vh;
+  }
+}

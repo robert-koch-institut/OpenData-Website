@@ -1,0 +1,66 @@
+@import "../../../mixins";
+
+.datasource-card {
+  height: 100%;
+  box-sizing: border-box;
+
+  .card-title {
+    flex: 1;
+    max-width: 100%;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    line-height: 110%;
+    text-decoration: inherit;
+    color: inherit;
+  }
+
+  .horizontal-spacer {
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .description {
+    @include vertical-text-overflow-clamp(3);
+  }
+
+  .card-title-container {
+    display: inline-flex;
+    width: 100%;
+    align-items: center;
+  }
+
+  .card-content-margin {
+    display: block;
+    margin: 0 16px;
+  }
+
+  ::ng-deep {
+    mat-card {
+      div.mat-card-header-text {
+        width: 100%;
+        margin: 0;
+      }
+    }
+
+    // mat-chip-list.card-margin {
+    //   .mat-chip-list-wrapper {
+    //     margin-left: 16px;
+    //     margin-right: 16px;
+    //   }
+    // }
+
+    // mat-chip-list {
+    //   flex-shrink: 0;
+    //   &.licence-chip-list {
+    //     .mat-chip-list-wrapper {
+    //       margin-left: 8px;
+    //       mat-chip {
+    //         font-size: 60%;
+    //         min-height: 24px;
+    //       }
+    //     }
+    //   }
+    // }
+  }
+}

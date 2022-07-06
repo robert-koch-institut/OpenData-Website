@@ -1,0 +1,14 @@
+name: "Create datasource.json"
+description: "Creates the datasource json file, which stores the necessary data for the github opendata website."
+inputs:
+  GH_TOKEN:
+    description: "Github token"
+    default: $
+    required: true
+  CWD:
+    description: "Working Directory"
+    default: ""
+    required: false
+runs:
+  using: "node12"
+  main: "index.js"

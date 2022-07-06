@@ -1,0 +1,9 @@
+<div class="image-preview-component-container">
+    <div class="image-container">
+      <img [src]="imgUrl" class="image-preview" />
+    </div>
+  
+    <ng-template #loading>
+      <app-loading-indicator text="Lade Vorschau..."></app-loading-indicator>
+    </ng-template>
+  </div>

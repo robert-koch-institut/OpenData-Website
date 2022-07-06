@@ -1,0 +1,9 @@
+<div class="root-container">
+  <div class="markdown-body" *ngIf="mdData$ | async as data; else loading">
+    <markdown ngPreserveWhitespaces [data]="data"></markdown>
+  </div>
+</div>
+
+<ng-template #loading>
+  <app-loading-indicator text="Lade Vorschau..."></app-loading-indicator>
+</ng-template>

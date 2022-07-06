@@ -1,0 +1,40 @@
+<!-- <div *ngIf="tableData$ | async as tableData; else loading" class="container"> -->
+<div *ngIf="tableData$ | async as tableData; else loading" class="container">
+    <mat-form-field appearance="standard" class="filter-form-field">
+        <mat-label>Filter</mat-label>
+        <input matInput (keyup)="applyFilter($event, tableData)" placeholder="Bsp.: 2021-" #input>
+    </mat-form-field>
+
+    <!-- <div *ngIf="isLfs">
+        <p class="warn">STORED UNDER LFS! DATA IS TRUNCATED</p>
+    </div> -->
+
+    <div #tableContainer class="table-container">
+        <cdk-virtual-scroll-viewport tvsItemSize="32" headerHeight="56" style="height: calc(100%);">
+            <table mat-table [dataSource]="tableData.data" matSort (afterComponentInit)="afterTableInit(tableData)">
+                <ng-container *ngFor="let column of tableData.columns" [matColumnDef]="column">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> {{column}} </th>
+                    <td mat-cell *matCellDef="let element"> {{element[column] | formatIfNumber:column}} </td>
+                    <td mat-footer-cell *matFooterCellDef [attr.colspan]="tableData.columns.length" class="lfs-cell">
+                        Zeilen abgeschnitten, weil LFS!!!!
+                    </td>
+                </ng-container>
+
+                <tr mat-header-row *matHeaderRowDef="tableData.columns"></tr>
+                <tr mat-row *matRowDef="let row; columns: tableData.columns"></tr>
+                <tr mat-footer-row *matFooterRowDef="[tableData.columns[0]]" [hidden]="!isLfs"></tr>
+            </table>
+        </cdk-virtual-scroll-viewport>
+    </div>
+</div>
+
+<ng-template #loading>
+    <div class="loading-container">
+        <div class="loading-indicator">
+            <app-loading-indicator [text]="'Lade Vorschau für \''+fileName+'\'...'"></app-loading-indicator>
+        </div>
+        <div *ngIf="isLfs" class="lfs-indicator">
+            Laden dauert lange weil LFS!
+        </div>
+    </div>
+</ng-template>

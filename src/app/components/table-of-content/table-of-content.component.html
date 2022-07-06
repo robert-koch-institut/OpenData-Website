@@ -1,0 +1,37 @@
+<!-- <mat-list class="toc">
+    <mat-list-item *ngFor="let tocItem of tocItems" class="toc-item" [ngClass]="'toc-item-level-' + tocItem.level">
+        <div class="active-indicator"></div>
+        <a pageScroll #tocItem [href]="'#' + tocItem.fragment" class="toc-item-link">{{tocItem.label}} -
+            {{tocItem.level}}</a>
+    </mat-list-item>
+</mat-list> -->
+
+<cdk-tree [dataSource]="treeDataSource" [treeControl]="treeControl" class="toc">
+    <!-- This is the tree node template for leaf nodes -->
+    <cdk-nested-tree-node #tocItem *cdkTreeNodeDef="let node" class="toc-item" [class.active]="node.active">
+        <!-- use a disabled button to provide padding for tree leaf -->
+        <!-- <button mat-icon-button disabled></button> -->
+        <div class="active-indicator"></div>
+        <div class="link-container">
+            <a pageScroll [href]="'#' + node.fragment" class="toc-item-link">{{node.label}}</a>
+        </div>
+    </cdk-nested-tree-node>
+
+    <!-- This is the tree node template for expandable nodes -->
+    <cdk-nested-tree-node #tocItem *cdkTreeNodeDef="let node; when: hasChild" class="toc-item"
+        [class.active]="node.active">
+        <!-- <button mat-icon-button [attr.aria-label]="'Toggle ' + node.name" cdkTreeNodeToggle class="toggle-button">
+            <mat-icon class="mat-icon-rtl-mirror">
+                {{treeControl.isExpanded(node) ? 'expand_more' : 'chevron_right'}}
+            </mat-icon>
+        </button> -->
+        <div class="active-indicator"></div>
+        <div class="link-container">
+            <a pageScroll [href]="'#' + node.fragment" class="toc-item-link">{{node.label}}</a>
+        </div>
+        <div class="flex-break"></div>
+        <div class="child-container" [class.tree-invisible]="!treeControl.isExpanded(node)">
+            <ng-container cdkTreeNodeOutlet></ng-container>
+        </div>
+    </cdk-nested-tree-node>
+</cdk-tree>
