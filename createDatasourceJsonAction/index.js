@@ -3186,7 +3186,7 @@ const TagBlacklist = ['germany', 'deutschland', 'rki'];
 function readZenodoJson(octokit, repo, tree) {
     return __awaiter(this, void 0, void 0, function* () {
         const zenodoContentResult = { contributors: [], lastUpdated: new Date(), tags: [], name: repo.repo, authors: [], description: '' };
-        const zenodoJsonNode = tree.find(x => x.path && x.path.toLowerCase() === '.zenodo.json');
+        const zenodoJsonNode = tree.find(x => x.path && ( x.path.toLowerCase() === '.zenodo.json' || x.path.toLowerCase() === 'Metadaten/zenodo.json'));
         if (zenodoJsonNode && zenodoJsonNode.path) {
             const { data: zenodoJsonContent } = yield octokit.rest.repos.getContent(Object.assign(Object.assign({}, repo), { path: zenodoJsonNode.path }));
             const zenodoJsonContentFile = zenodoJsonContent;
