@@ -41,9 +41,12 @@ async function readDoi(octokit: OctokitApi, repo: { owner: string, repo: string,
 
 async function readZenodoJson(octokit: OctokitApi, repo: { owner: string, repo: string }, tree: GithubTreeItem[]) {
     const zenodoContentResult = { contributors: [] as { name: string, role: string }[], lastUpdated: new Date(), tags: [] as string[], name: repo.repo, authors: [] as string[], description: '' };
+    core.startGroup('treeZenododSearch');
+    core.info('searching for .zenodo.json in');
+    core.info(JSON.stringify(tree));
+    core.endGroup();
     const zenodoJsonNode = tree.find(x => x.path && _.endsWith(x.path.toLowerCase(), '.zenodo.json'));
     if (zenodoJsonNode && zenodoJsonNode.path) {
-
         const { data: zenodoJsonContent } = await octokit.rest.repos.getContent({ ...repo, path: zenodoJsonNode.path });
         const zenodoJsonContentFile = zenodoJsonContent as ContentFile;
         if (zenodoJsonContentFile && zenodoJsonContentFile.encoding === 'base64') {

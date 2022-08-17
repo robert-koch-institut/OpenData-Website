@@ -3208,6 +3208,10 @@ function readDoi(octokit, repo, tree) {
 function readZenodoJson(octokit, repo, tree) {
     return __awaiter(this, void 0, void 0, function* () {
         const zenodoContentResult = { contributors: [], lastUpdated: new Date(), tags: [], name: repo.repo, authors: [], description: '' };
+        core.startGroup('treeZenododSearch');
+        core.info('searching for .zenodo.json in');
+        core.info(JSON.stringify(tree));
+        core.endGroup();
         const zenodoJsonNode = tree.find(x => x.path && _.endsWith(x.path.toLowerCase(), '.zenodo.json'));
         if (zenodoJsonNode && zenodoJsonNode.path) {
             const { data: zenodoJsonContent } = yield octokit.rest.repos.getContent(Object.assign(Object.assign({}, repo), { path: zenodoJsonNode.path }));
