@@ -38,6 +38,10 @@ export interface ZenodoJson {
     publication_date: Date;
 }
 
+export interface CitationCff {
+    doi: string;
+}
+
 export interface ExternalLink {
     $type: 'github' | 'zenodo';
     url: string;

@@ -6,17 +6,19 @@
     "dependencies": {
         "@actions/core": "^1.6.0",
         "@actions/github": "^5.0.0",
+        "js-yaml": "^4.1.0",
         "lodash": "^4.17.21",
         "multimatch": "^6.0.0"
-      },
-      "devDependencies": {
+    },
+    "devDependencies": {
         "@tsconfig/node16": "^1.0.1",
+        "@types/js-yaml": "^4.0.5",
         "@types/lodash": "^4.14.178",
         "@types/node": "^16.11.1",
         "@vercel/ncc": "^0.33.1"
-      },
-      "scripts": {
-        "nccHelp": "ncc help" ,
+    },
+    "scripts": {
+        "nccHelp": "ncc help",
         "build": "tsc && ncc build dist/main.js -o ../../createDatasourceJsonAction"
-      }
-  }
+    }
+}
