@@ -3173,7 +3173,6 @@ Object.defineProperty(exports, "__esModule", ({ value: true }));
 const core = __importStar(__nccwpck_require__(2186));
 const github = __importStar(__nccwpck_require__(5438));
 const fs = __importStar(__nccwpck_require__(7147));
-const path = __importStar(__nccwpck_require__(1017));
 const multimatch_1 = __importDefault(__nccwpck_require__(5225));
 const md_helpers_1 = __nccwpck_require__(7603);
 const _ = __importStar(__nccwpck_require__(250));
@@ -3186,7 +3185,7 @@ const TagBlacklist = ['germany', 'deutschland', 'rki'];
 function readZenodoJson(octokit, repo, tree) {
     return __awaiter(this, void 0, void 0, function* () {
         const zenodoContentResult = { contributors: [], lastUpdated: new Date(), tags: [], name: repo.repo, authors: [], description: '' };
-        const zenodoJsonNode = tree.find(x => x.path && x.path.toLowerCase() === 'Metadaten/zenodo.json');
+        const zenodoJsonNode = tree.find(x => x.path && _.endsWith(x.path.toLowerCase(), '.zenodo.json'));
         if (zenodoJsonNode && zenodoJsonNode.path) {
             const { data: zenodoJsonContent } = yield octokit.rest.repos.getContent(Object.assign(Object.assign({}, repo), { path: zenodoJsonNode.path }));
             const zenodoJsonContentFile = zenodoJsonContent;
@@ -3326,12 +3325,11 @@ function run() {
     var _a;
     return __awaiter(this, void 0, void 0, function* () {
         const ghToken = core.getInput('GH_TOKEN');
-        const cwd = core.getInput('CWD');
         const octokit = github.getOctokit(ghToken);
         const { data: repo } = yield octokit.rest.repos.get(github.context.repo);
         const branch = repo.default_branch || DefaultBranch;
         core.info(`Creating datasource.json for repo '${github.context.repo.owner}/${github.context.repo.repo}'.`);
-        const topics$ = octokit.rest.repos.getAllTopics(github.context.repo);
+        // const topics$ = octokit.rest.repos.getAllTopics(github.context.repo);
         const externalLinks = [
             { $type: 'github', url: repo.html_url }
         ];
@@ -3346,12 +3344,12 @@ function run() {
         const isLfsFile = yield createLfsFileDescriminator(octokit, github.context.repo, tree);
         const relevantTreeItems = tree.filter(node => node.path && ContentPathPredicates.every(x => x(node.path)));
         const content = treeIt(relevantTreeItems, isLfsFile, github.context.repo, branch);
-        const tags = (yield topics$).data.names.filter(x => !TagBlacklist.includes(x.toLowerCase()));
+        // const tags = (await topics$).data.names.filter(x => !TagBlacklist.includes(x.toLowerCase()));
         const datasourceJson = Object.assign(Object.assign({ id: repo.name, branch,
             externalLinks,
             doi }, (yield zenodoContent$)), { readme: yield readmeContent$, licence: ((_a = repo.license) === null || _a === void 0 ? void 0 : _a.spdx_id) || '', content: _.orderBy(content, x => `${x.$type}_${x.path}`) });
         core.info(`Created datasource.json with\n${JSON.stringify(datasourceJson)}`);
-        const dir = path.join(cwd, './src/app/data/datasource.json');
+        const dir = './src/app/data/datasource.json';
         core.info(`Writing datasource.json to '${dir}'.`);
         fs.writeFileSync(dir, JSON.stringify(datasourceJson));
     });

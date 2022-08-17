@@ -16,7 +16,7 @@ const TagBlacklist: string[] = ['germany', 'deutschland', 'rki'];
 
 async function readZenodoJson(octokit: OctokitApi, repo: { owner: string, repo: string }, tree: GithubTreeItem[]) {
     const zenodoContentResult = { contributors: [] as { name: string, role: string }[], lastUpdated: new Date(), tags: [] as string[], name: repo.repo, authors: [] as string[], description: '' };
-    const zenodoJsonNode = tree.find(x => x.path && x.path.toLowerCase() === '.zenodo.json');
+    const zenodoJsonNode = tree.find(x => x.path && _.endsWith(x.path.toLowerCase(), '.zenodo.json'));
     if (zenodoJsonNode && zenodoJsonNode.path) {
 
         const { data: zenodoJsonContent } = await octokit.rest.repos.getContent({ ...repo, path: zenodoJsonNode.path });
