@@ -4,8 +4,9 @@ import * as fs from 'fs'
 import * as path from 'path';
 import multimatch from 'multimatch';
 import { removeHtmlTags, replaceRelativeRootUrls } from './md-helpers';
-import { Contributor, ExternalLink, ZenodoJson, OctokitApi, GithubTreeItem, ContentFile, DatasourceContent, FolderDatasourceContent, FileDatasourceContent, OpenDataDatasource } from './models'
+import { Contributor, ExternalLink, ZenodoJson, OctokitApi, GithubTreeItem, ContentFile, DatasourceContent, FolderDatasourceContent, FileDatasourceContent, OpenDataDatasource, CitationCff } from './models'
 import * as _ from 'lodash';
+import { load } from 'js-yaml';
 
 const DefaultBranch: string = 'master';
 const ContentPathPredicates: ((x: string) => boolean)[] = [
@@ -14,11 +15,34 @@ const ContentPathPredicates: ((x: string) => boolean)[] = [
 ];
 const TagBlacklist: string[] = ['germany', 'deutschland', 'rki'];
 
+async function readDoi(octokit: OctokitApi, repo: { owner: string, repo: string, homepage: string | null }, tree: GithubTreeItem[]) {
+    const result = { doi: '', links: [] as ExternalLink[] };
+
+    const citationCffNode = tree.find(x => x.path && _.endsWith(x.path.toLowerCase(), 'citation.cff'));
+    if (citationCffNode && citationCffNode.path) {
+        const { data: citationCffContent } = await octokit.rest.repos.getContent({ ...repo, path: citationCffNode.path });
+        const citationCffContentFile = citationCffContent as ContentFile;
+        if (citationCffContentFile && citationCffContentFile.encoding === 'base64') {
+
+            const buffer = Buffer.from(citationCffContentFile.content, 'base64');
+            const citationContentString = buffer.toString();
+            const cff = load(citationContentString) as CitationCff;
+            result.doi = cff.doi;
+            result.links.push({ $type: 'zenodo' as const, url: `https://doi.org/${cff.doi}` });
+        }
+    }
+    else if (repo.homepage && repo.homepage.includes('doi.org')) {
+        result.links.push({ $type: 'zenodo' as const, url: repo.homepage });
+        result.doi = repo.homepage;
+    }
+
+    return result;
+}
+
 async function readZenodoJson(octokit: OctokitApi, repo: { owner: string, repo: string }, tree: GithubTreeItem[]) {
     const zenodoContentResult = { contributors: [] as { name: string, role: string }[], lastUpdated: new Date(), tags: [] as string[], name: repo.repo, authors: [] as string[], description: '' };
-    const zenodoJsonNode = tree.find(x => x.path && x.path.toLowerCase() === '.zenodo.json');
+    const zenodoJsonNode = tree.find(x => x.path && _.endsWith(x.path.toLowerCase(), '.zenodo.json'));
     if (zenodoJsonNode && zenodoJsonNode.path) {
-
         const { data: zenodoJsonContent } = await octokit.rest.repos.getContent({ ...repo, path: zenodoJsonNode.path });
         const zenodoJsonContentFile = zenodoJsonContent as ContentFile;
         if (zenodoJsonContentFile && zenodoJsonContentFile.encoding === 'base64') {
@@ -184,31 +208,25 @@ async function run() {
 
     core.info(`Creating datasource.json for repo '${github.context.repo.owner}/${github.context.repo.repo}'.`);
 
-    // const topics$ = octokit.rest.repos.getAllTopics(github.context.repo);
-
     const externalLinks: ExternalLink[] = [
         { $type: 'github', url: repo.html_url }
     ];
 
-    let doi = '';
-    if (repo.homepage && repo.homepage.includes('doi.org/10.5281/zenodo.')) {
-        externalLinks.push({ $type: 'zenodo', url: repo.homepage });
-        doi = repo.homepage;
-    }
-
     const { data: { tree } } = await octokit.rest.git.getTree({ ...github.context.repo, tree_sha: branch, recursive: '1' });
     const zenodoContent$ = readZenodoJson(octokit, github.context.repo, tree);
+    const doi$ = readDoi(octokit, { ...github.context.repo, homepage: repo.homepage }, tree);
     const readmeContent$ = readReadmeMd(octokit, github.context.repo, branch, tree);
 
     const isLfsFile = await createLfsFileDescriminator(octokit, github.context.repo, tree);
     const relevantTreeItems = tree.filter(node => node.path && ContentPathPredicates.every(x => x(node.path!)));
     const content = treeIt(relevantTreeItems, isLfsFile, github.context.repo, branch);
+    const { doi, links } = await doi$;
     // const tags = (await topics$).data.names.filter(x => !TagBlacklist.includes(x.toLowerCase()));
 
     const datasourceJson: OpenDataDatasource = {
         id: repo.name,
         branch,
-        externalLinks,
+        externalLinks: externalLinks.concat(links),
         doi,
         ...(await zenodoContent$),
         readme: await readmeContent$,
@@ -226,4 +244,6 @@ async function run() {
 }
 
 run().catch(err => core.setFailed("Workflow to create datasource.json failed!\nError:" + err.message))
+
+
 

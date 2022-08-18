@@ -140,6 +140,22 @@
 		},
 		{
 			"$type": "folder",
+			"path": "Metadaten",
+			"name": "Metadaten",
+			"content": [
+				{
+					"$type": "file",
+					"path": "Metadaten/.zenodo.json",
+					"name": ".zenodo.json",
+					"downloadUrl": "https://raw.githubusercontent.com/robert-koch-institut/COVID-19-Impfungen_in_Deutschland/master/Kontextmaterialien%2FDatenschema_Deutschland_Bundeslaender_COVID-19-Impfungen.json",
+					"previewUrl": "https://raw.githubusercontent.com/robert-koch-institut/COVID-19-Impfungen_in_Deutschland/master/Kontextmaterialien/Datenschema_Deutschland_Bundeslaender_COVID-19-Impfungen.json",
+					"visitUrl": "https://raw.githubusercontent.com/robert-koch-institut/COVID-19-Impfungen_in_Deutschland/master/Kontextmaterialien/Datenschema_Deutschland_Bundeslaender_COVID-19-Impfungen.json",
+					"lfs": false
+				}
+			]
+		},
+		{
+			"$type": "folder",
 			"path": "Kontextmaterialien",
 			"name": "Kontextmaterialien",
 			"content": [
@@ -147,6 +163,15 @@
 					"$type": "file",
 					"path": "Kontextmaterialien/Datenschema_Deutschland_Bundeslaender_COVID-19-Impfungen.json",
 					"name": "Datenschema_Deutschland_Bundeslaender_COVID-19-Impfungen.json",
+					"downloadUrl": "https://raw.githubusercontent.com/robert-koch-institut/COVID-19-Impfungen_in_Deutschland/master/Kontextmaterialien%2FDatenschema_Deutschland_Bundeslaender_COVID-19-Impfungen.json",
+					"previewUrl": "https://raw.githubusercontent.com/robert-koch-institut/COVID-19-Impfungen_in_Deutschland/master/Kontextmaterialien/Datenschema_Deutschland_Bundeslaender_COVID-19-Impfungen.json",
+					"visitUrl": "https://raw.githubusercontent.com/robert-koch-institut/COVID-19-Impfungen_in_Deutschland/master/Kontextmaterialien/Datenschema_Deutschland_Bundeslaender_COVID-19-Impfungen.json",
+					"lfs": false
+				},
+				{
+					"$type": "file",
+					"path": "Kontextmaterialien/Datenschema_Deutschland_Bundeslaender_COVID-19-Impfungen.json",
+					"name": "Datenschema_Deutschland_Bundeslaender_COVID-19-Impfungen-extralongLong-long-longLong-long-long-longLong-long-long-longLong-long.json",
 					"downloadUrl": "https://raw.githubusercontent.com/robert-koch-institut/COVID-19-Impfungen_in_Deutschland/master/Kontextmaterialien%2FDatenschema_Deutschland_Bundeslaender_COVID-19-Impfungen.json",
 					"previewUrl": "https://raw.githubusercontent.com/robert-koch-institut/COVID-19-Impfungen_in_Deutschland/master/Kontextmaterialien/Datenschema_Deutschland_Bundeslaender_COVID-19-Impfungen.json",
 					"visitUrl": "https://raw.githubusercontent.com/robert-koch-institut/COVID-19-Impfungen_in_Deutschland/master/Kontextmaterialien/Datenschema_Deutschland_Bundeslaender_COVID-19-Impfungen.json",

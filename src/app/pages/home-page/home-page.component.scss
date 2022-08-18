@@ -177,6 +177,10 @@ $nebel: map.get($rki-nebel, 400);
                 .right-column {
                     width: 100%;
                     flex: 1 1 calc(75% - #{$default-component-margin-horizontal * 0.75});
+                    
+                    @media (min-width: 1235px) {
+                        max-width: calc(75% - #{$default-component-margin-horizontal * 0.75});
+                    }
                 }
             }
         }

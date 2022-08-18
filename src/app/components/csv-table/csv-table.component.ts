@@ -57,27 +57,27 @@ export class CsvTableComponent implements OnInit, OnChanges {
   // }
 
   private updateTableData() {
-    console.log('updateTableData');
+    // console.log('updateTableData');
     let httpHeaders = new HttpHeaders();
     this.tableData$ = this.parseCsv(this.csvUrl, httpHeaders);//.pipe(delay(100000));
   }
 
   afterTableInit(data: TableData) {
-    console.log("AFTER VIEW INIT", this.sort, data);
+    // console.log("AFTER VIEW INIT", this.sort, data);
     if (this.sort) {
       data.data.sort = this.sort;
     }
   }
 
   private parseCsv(url?: string, headers?: HttpHeaders): Observable<TableData> {
-    console.log('parseCsv', url);
+    // console.log('parseCsv', url);
     const emptyResult = { columns: [], data: new TableVirtualScrollDataSource(), isLfs: false, truncated: false };
     if (!url) {
       return of(emptyResult);
     }
 
     return this.http.get(url, { responseType: 'text', headers, observe: 'response' }).pipe(map(response => {
-      console.log("RESP HEADERS", response.headers.keys());
+      // console.log("RESP HEADERS", response.headers.keys());
       if (response.body !== null) {
         const parsedCsv = Papa.parse(response.body, {
           header: true,

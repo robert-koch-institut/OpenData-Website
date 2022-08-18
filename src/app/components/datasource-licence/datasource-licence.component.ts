@@ -30,7 +30,7 @@ export class DatasourceLicenceComponent implements OnInit, OnChanges {
       }
     }
     this.licenceUrl = update;
-    console.log("UPDATED url", update);
+    // console.log("UPDATED url", update);
   }
 
   ngOnInit(): void {
