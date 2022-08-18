@@ -6,9 +6,9 @@ import * as _ from 'lodash';
 })
 export class FilenameBeautifyPipe implements PipeTransform {
 
-  transform(filename: string, ...args: unknown[]): unknown {
+  transform(filename: string, ...args: unknown[]): string {
     const noExt =   _.initial(filename.split('.'));
-    return noExt.join().split('_').join(' ');
+    return noExt.join('').split('_').join(' ');
   }
 
 }
