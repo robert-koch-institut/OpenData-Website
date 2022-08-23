@@ -1,4 +1,3 @@
-import { stringify } from '@angular/compiler/src/util';
 import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import * as _ from 'lodash';
 import { Contributor } from 'src/app/models/datasource';
