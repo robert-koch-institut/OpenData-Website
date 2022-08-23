@@ -52,7 +52,6 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { AppRoutingModule } from './app-routing.module';
 import { DatasourceContentPageComponent } from './pages/datasource-content-page/datasource-content-page.component';
 import { HomePageComponent } from './pages/home-page/home-page.component';
-import { RellaxDirective } from './directives/rellax.directive';
 import { EmbedPageComponent } from './pages/embed-page/embed-page.component';
 import { DatasourceCardComponent } from './components/datasource-card/datasource-card.component';
 import { DatasourceLinksComponent } from './components/datasource-links/datasource-links.component';
@@ -72,7 +71,7 @@ function markedOptionsFactory(): MarkedOptions {
   // renderer.blockquote = (text: string) => {
   //   return '<blockquote class="blockquote"><p>' + text + '</p></blockquote>';
   // };
-  renderer.link = (href, title, text) => {
+  renderer.link = (href: any, title: any, text: any) => {
     return `<a href="${href}" ${title === null ? '' : 'title="' + title + '"'} target="_blank">${text}</a>`;
   }
 
@@ -114,7 +113,6 @@ function getBaseHref(platformLocation: PlatformLocation): string {
     FileDownloadComponent,
     DatasourceContentPageComponent,
     HomePageComponent,
-    RellaxDirective,
     EmbedPageComponent,
     DatasourceCardComponent,
     DatasourceLinksComponent,

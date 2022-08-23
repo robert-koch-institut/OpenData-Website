@@ -1,14 +1,10 @@
-import { AfterViewInit, Component, ElementRef, HostListener, Inject, Input, OnChanges, OnInit, QueryList, Renderer2, SimpleChanges, ViewChildren } from '@angular/core';
-import { MatList, MatListItem } from '@angular/material/list';
-import { PageScrollService } from 'ngx-page-scroll-core';
 import { OpenDataDatasource } from 'src/app/models/datasource';
 import * as _ from 'lodash';
-import { MarkdownService } from 'ngx-markdown';
-import { ComplexInnerSubscriber } from 'rxjs/internal/innerSubscribe';
 import { DOCUMENT } from '@angular/common';
-import { CdkTreeNode, FlatTreeControl, NestedTreeControl } from '@angular/cdk/tree';
-import { MatTreeFlatDataSource, MatTreeFlattener } from '@angular/material/tree';
+import { NestedTreeControl } from '@angular/cdk/tree';
 import { ArrayDataSource } from '@angular/cdk/collections';
+import { MarkdownService } from 'ngx-markdown';
+import { Component, OnInit, OnChanges, AfterViewInit, Input, ViewChildren, QueryList, ElementRef, Renderer2, Inject, SimpleChanges, HostListener } from '@angular/core';
 
 interface TocItem {
   fragment: string;
@@ -82,7 +78,7 @@ export class TableOfContentComponent implements OnInit, OnChanges, AfterViewInit
   private createDocumentationTocItems() {
     const result: TocItem[] = [];
     if (this.datasource) {
-      const compiled = this.markdownService.compile(this.datasource.readme);
+      const compiled = this.markdownService.parse(this.datasource.readme);
       let parent: TocItem | null = null;
 
       let match = this.h2RegEx.exec(compiled);

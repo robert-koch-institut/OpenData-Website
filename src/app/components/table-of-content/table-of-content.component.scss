@@ -1,6 +1,6 @@
 @use "sass:map";
 @use "sass:math";
-@use "~@angular/material" as mat;
+@use "@angular/material" as mat;
 
 @mixin toc-component($theme) {
     $color-config: mat.get-color-config($theme);

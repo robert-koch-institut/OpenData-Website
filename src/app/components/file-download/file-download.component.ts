@@ -35,10 +35,11 @@ export class FileDownloadComponent implements OnInit {
       }, false);
       xhr.onreadystatechange = () => {
         if (xhr.readyState === 4 && xhr.status === 200) {
-          if (typeof window.navigator.msSaveBlob !== 'undefined') {
+          const navigator = window.navigator as any; 
+          if (typeof navigator.msSaveBlob !== 'undefined') {
             // IE version
             var blob = new Blob([xhr.response], { type: 'application/force-download' });
-            window.navigator.msSaveBlob(blob, name);
+            navigator.msSaveBlob(blob, name);
           } else {
             // Chrome & Firefox version
             var link = document.createElement('a');
