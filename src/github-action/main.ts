@@ -11,7 +11,7 @@ import { load } from 'js-yaml';
 const DefaultBranch: string = 'master';
 const ContentPathPredicates: ((x: string) => boolean)[] = [
     x => !x.startsWith('.') && !x.startsWith('Archiv'),
-    x => !_.includes(['LIZENZ', 'LICENSE'], x)
+    x => !_.includes(['LIZENZ', 'LICENSE', 'CITATION.cff'], x)
 ];
 const TagBlacklist: string[] = ['germany', 'deutschland', 'rki'];
 
@@ -53,7 +53,9 @@ async function readZenodoJson(octokit: OctokitApi, repo: { owner: string, repo: 
             const zenodoJson = JSON.parse(zenodoContentString) as ZenodoJson;
             zenodoContentResult.name = zenodoJson.title;
             zenodoContentResult.lastUpdated = zenodoJson.publication_date;
-            zenodoContentResult.contributors = zenodoJson.contributors.map(x => ({ name: x.name, role: x.type })) || [];
+            zenodoContentResult.contributors = zenodoJson.contributors
+                ? zenodoJson.contributors.map(x => ({ name: x.name, role: x.type }))
+                : [];
             zenodoContentResult.authors = zenodoJson.creators
                 ? zenodoJson.creators.map(x => x.name)
                 : [];
