@@ -3184,7 +3184,7 @@ const js_yaml_1 = __nccwpck_require__(1917);
 const DefaultBranch = 'master';
 const ContentPathPredicates = [
     x => !x.startsWith('.') && !x.startsWith('Archiv'),
-    x => !_.includes(['LIZENZ', 'LICENSE'], x)
+    x => !_.includes(['LIZENZ', 'LICENSE', 'CITATION.cff'], x)
 ];
 const TagBlacklist = ['germany', 'deutschland', 'rki'];
 function readDoi(octokit, repo, tree) {
@@ -3222,7 +3222,9 @@ function readZenodoJson(octokit, repo, tree) {
                 const zenodoJson = JSON.parse(zenodoContentString);
                 zenodoContentResult.name = zenodoJson.title;
                 zenodoContentResult.lastUpdated = zenodoJson.publication_date;
-                zenodoContentResult.contributors = zenodoJson.contributors.map(x => ({ name: x.name, role: x.type })) || [];
+                zenodoContentResult.contributors = zenodoJson.contributors
+                    ? zenodoJson.contributors.map(x => ({ name: x.name, role: x.type }))
+                    : [];
                 zenodoContentResult.authors = zenodoJson.creators
                     ? zenodoJson.creators.map(x => x.name)
                     : [];

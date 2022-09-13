@@ -4,13 +4,13 @@
             <div class="tree-item file-tree-item">
                 <div class="tree-item-content">
                     <div class="icon-wrapper" (click)="showPreview(file)">
-                        <mat-icon> {{file | datasourceContentExt | extToIconname}} </mat-icon>
+                        <mat-icon> {{file.name | datasourceContentExt | extToIconname}} </mat-icon>
                     </div>
 
                     <span class="file-name file-item-element" [title]="file.name" (click)="showPreview(file)">{{file.name | filenameBeautify}}</span>
                     <!-- <span *ngIf="file.lfs" class="file-lfs-mark file-item-element" (click)="showPreview(file)">LFS</span> -->
                     <div class="file-extention file-item-element" (click)="showPreview(file)">
-                        {{file | datasourceContentExt | uppercase }}
+                        {{file.name | datasourceContentExt | uppercase }}
                     </div>
 
 

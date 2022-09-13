@@ -86,6 +86,24 @@
 		},
 		{
 			"$type": "file",
+			"path": ".DotStartAktuell_Deutschland_Bundeslaender_COVID-19-Impfungen.csv",
+			"name": ".DotStartAktuell_Deutschland_Bundeslaender_COVID-19-Impfungen.csv",
+			"downloadUrl": "https://raw.githubusercontent.com/robert-koch-institut/COVID-19-Impfungen_in_Deutschland/master/Aktuell_Deutschland_Bundeslaender_COVID-19-Impfungen.csv",
+			"previewUrl": "https://raw.githubusercontent.com/robert-koch-institut/COVID-19-Impfungen_in_Deutschland/master/Aktuell_Deutschland_Bundeslaender_COVID-19-Impfungen.csv",
+			"visitUrl": "https://raw.githubusercontent.com/robert-koch-institut/COVID-19-Impfungen_in_Deutschland/master/Aktuell_Deutschland_Bundeslaender_COVID-19-Impfungen.csv",
+			"lfs": false
+		},
+		{
+			"$type": "file",
+			"path": "Aktuell_Deutschland_Bundeslaender_COVID-19-Impfungen.lala.csv.xy",
+			"name": "Aktuell_Deutschland_Bundeslaender_COVID-19-Impfungen.lala.csv.xy",
+			"downloadUrl": "https://raw.githubusercontent.com/robert-koch-institut/COVID-19-Impfungen_in_Deutschland/master/Aktuell_Deutschland_Bundeslaender_COVID-19-Impfungen.csv",
+			"previewUrl": "https://raw.githubusercontent.com/robert-koch-institut/COVID-19-Impfungen_in_Deutschland/master/Aktuell_Deutschland_Bundeslaender_COVID-19-Impfungen.csv",
+			"visitUrl": "https://raw.githubusercontent.com/robert-koch-institut/COVID-19-Impfungen_in_Deutschland/master/Aktuell_Deutschland_Bundeslaender_COVID-19-Impfungen.csv",
+			"lfs": false
+		},
+		{
+			"$type": "file",
 			"path": "Aktuell_Deutschland_SarsCov2_Infektionen.csv",
 			"name": "Aktuell_Deutschland_SarsCov2_Infektionen.csv",
 			"downloadUrl": "https://media.githubusercontent.com/media/robert-koch-institut/SARS-CoV-2_Infektionen_in_Deutschland/master/Aktuell_Deutschland_SarsCov2_Infektionen.csv",
