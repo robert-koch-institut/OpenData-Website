@@ -29,6 +29,14 @@
             "polyfills": "src/polyfills.ts",
             "tsConfig": "tsconfig.app.json",
             "inlineStyleLanguage": "scss",
+            "allowedCommonJsDependencies": [
+              "lodash",
+              "papaparse",
+              "pdfjs-dist/build/pdf",
+              "pdfjs-dist/web/pdf_viewer",
+              "src/app/util/emojify",
+              "highlight.js"
+            ],
             "assets": [
               "src/favicon.ico",
               "src/assets"
