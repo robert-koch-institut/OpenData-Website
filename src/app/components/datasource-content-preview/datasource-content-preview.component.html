@@ -57,6 +57,9 @@
         <ng-container *ngSwitchCase="'png'">
           <app-image-preview [imgUrl]="content.previewUrl"></app-image-preview>
         </ng-container>
+        <ng-container *ngSwitchCase="'json'">
+          <app-json-preview [jsonUrl]="content.previewUrl"></app-json-preview>
+        </ng-container>
         <div *ngSwitchDefault class="no-preview-available">
           <div class="title mat-headline">
             <div class="text">Vorschau leider nicht möglich</div>

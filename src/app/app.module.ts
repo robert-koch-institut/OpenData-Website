@@ -62,6 +62,8 @@ import { KeepInViewComponent } from './components/keep-in-view/keep-in-view.comp
 import { ExtentionToIconnamePipe } from './pipes/extention-to-iconname';
 import { DatasourceContentExtPipe } from './pipes/datasource-content-ext.pipe';
 import { FilenameBeautifyPipe } from './pipes/filename-beautify.pipe';
+import { JsonPreviewComponent } from './components/json-preview/json-preview.component';
+import { HighlightModule, HIGHLIGHT_OPTIONS } from 'ngx-highlightjs';
 
 registerLocaleData(localeDe, 'de');
 
@@ -121,7 +123,8 @@ function getBaseHref(platformLocation: PlatformLocation): string {
     KeepInViewComponent,
     ExtentionToIconnamePipe,
     DatasourceContentExtPipe,
-    FilenameBeautifyPipe
+    FilenameBeautifyPipe,
+    JsonPreviewComponent
   ],
   imports: [
     BrowserAnimationsModule,
@@ -145,6 +148,7 @@ function getBaseHref(platformLocation: PlatformLocation): string {
     MatTableModule,
     ClipboardModule,
     CdkTreeModule,
+    HighlightModule,
     MatMenuModule,
     MatFormFieldModule,
     OverlayModule,
@@ -164,7 +168,13 @@ function getBaseHref(platformLocation: PlatformLocation): string {
   providers: [
     { provide: LOCALE_ID, useValue: 'de' },
     { provide: OverlayContainer, useClass: FullscreenOverlayContainer },
-    { provide: APP_BASE_HREF, useFactory: getBaseHref, deps: [PlatformLocation] }
+    { provide: APP_BASE_HREF, useFactory: getBaseHref, deps: [PlatformLocation] },
+    {
+      provide: HIGHLIGHT_OPTIONS,
+      useValue: {
+        fullLibraryLoader: () => import('highlight.js'),
+      }
+    }
   ],
   bootstrap: [AppComponent]
 })

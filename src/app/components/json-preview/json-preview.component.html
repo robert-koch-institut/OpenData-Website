@@ -1,0 +1,5 @@
+
+<pre *ngIf="jsonStr$ | async as jsonStr; else loading"><code [highlight]="jsonStr"></code></pre>
+<ng-template #loading>
+    <app-loading-indicator text="Lade Vorschau..."></app-loading-indicator>
+</ng-template>
