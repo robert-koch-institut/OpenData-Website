@@ -1,7 +1,7 @@
 <div class="datasource-content-preview-component mat-elevation-z9" *ngIf="content && content.$type === 'file'">
   <mat-toolbar class="header" color="accent">
     <span class="title">
-      <mat-icon class="icon"> {{content | datasourceContentExt | extToIconname}} </mat-icon>
+      <mat-icon class="icon"> {{content.name | datasourceContentExt | extToIconname}} </mat-icon>
       <span class="text" [title]="content.name">{{content.name}}</span>
       <span class="lfs" *ngIf="content.lfs">LFS</span>
     </span>

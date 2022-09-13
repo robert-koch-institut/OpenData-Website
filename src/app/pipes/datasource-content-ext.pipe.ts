@@ -7,8 +7,10 @@ import * as _ from 'lodash';
 })
 export class DatasourceContentExtPipe implements PipeTransform {
 
-  transform(value: DatasourceContent, ...args: unknown[]): string | undefined {
-    return _.last(value.path.toLowerCase().split('.'));
+  transform(filename: string, ...args: unknown[]): string | undefined {
+    const splited = filename.split('.').filter(x => x);
+    console.log(splited)
+    return _.tail(splited).join('.');
   }
   
 }
