@@ -146,7 +146,7 @@ async function createFile(octokit: OctokitApi, item: GithubTreeItem, isLfs: bool
 
     const getLfsSize = async (path: string): Promise<number> => {
         const { data } = await octokit.rest.repos.getContent({ ...repo, path });
-        if(!Array.isArray(data) && data.type === 'file'){
+        if (!Array.isArray(data) && data.type === 'file') {
             return data.size;
         }
 
@@ -188,27 +188,29 @@ async function createFile(octokit: OctokitApi, item: GithubTreeItem, isLfs: bool
 
 async function treeIt(octokit: OctokitApi, items: GithubTreeItem[], isLfsFile: (x: string) => boolean, repo: { repo: string, owner: string }, branch: string) {
     const result: DatasourceContent[] = [];
-    let level: any = { $result: result };
+    let level = { $result: result } as any;
 
-    await items.forEach(async (item) => {
+    items.forEach(async (item) => {
         if (item.type === 'blob' && item.path) {
-            await item.path.split('/').reduce(async (r, name, i, a) => {
+            const splittedPath = item.path.split('/');
+            splittedPath.reduce(async (r, name, i, a) => {
                 if (!r[name]) {
                     r[name] = { $result: [] };
 
                     if (i === a.length - 1) {
-                        r.$result.push(await createFile(octokit, item, isLfsFile(item.path!), repo, branch))
+                        const file = createFile(octokit, item, isLfsFile(item.path!), repo, branch);
+                        r.$result.push(file);
                     } else {
                         const folder: FolderDatasourceContent = {
-                            content: r[name].$result,
+                            content: await Promise.all(r[name].$result),
                             path: _.initial(item.path!.split('/')).join('/'),
                             name,
                             $type: 'folder'
                         };
-                        r.$result.push(folder)
+                        r.$result.push(Promise.resolve(folder));
                     }
                 }
-                return r[name];
+                return await r[name];
             }, level);
 
         };
