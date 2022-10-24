@@ -3346,28 +3346,32 @@ function treeIt(octokit, items, isLfsFile, repo, branch) {
                 const folderPath = _.initial(splittedFilePath).join('/');
                 for (let i = 0; i < splittedFilePath.length; i++) {
                     const name = splittedFilePath[i];
-                    let dsContent;
+                    // let dsContent: DatasourceContent;
                     if (i === splittedFilePath.length - 1) {
                         const file = yield createFile(octokit, item, isLfsFile(item.path), repo, branch);
-                        dsContent = file;
-                        // folders.get(folderPath)?.content.push(file);
+                        if (splittedFilePath.length === 1) {
+                            result.push(file);
+                        }
+                        else {
+                            folders.get(folderPath).content.push(file);
+                        }
                     }
                     else {
-                        const folder = {
-                            content: [],
-                            path: folderPath,
-                            name,
-                            $type: 'folder'
-                        };
-                        folders.set(folderPath, folder);
-                        dsContent = folder;
-                    }
-                    if (splittedFilePath.length === 1) {
-                        // root thing
-                        result.push(dsContent);
-                    }
-                    else {
-                        folders.get(folderPath).content.push(dsContent);
+                        if (!folders.has(folderPath)) {
+                            const folder = {
+                                content: [],
+                                path: folderPath,
+                                name,
+                                $type: 'folder'
+                            };
+                            folders.set(folderPath, folder);
+                            if (splittedFilePath.length === 2) {
+                                result.push(folder);
+                            }
+                            else {
+                                folders.get(folderPath).content.push(folder);
+                            }
+                        }
                     }
                 }
             }
