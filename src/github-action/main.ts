@@ -190,14 +190,14 @@ async function treeIt(octokit: OctokitApi, items: GithubTreeItem[], isLfsFile: (
     const result: DatasourceContent[] = [];
     let level: any = { $result: result };
 
-    items.forEach(item => {
+    await items.forEach(async (item) => {
         if (item.type === 'blob' && item.path) {
-            item.path.split('/').reduce((r, name, i, a) => {
+            await item.path.split('/').reduce(async (r, name, i, a) => {
                 if (!r[name]) {
                     r[name] = { $result: [] };
 
                     if (i === a.length - 1) {
-                        r.$result.push(createFile(octokit, item, isLfsFile(item.path!), repo, branch))
+                        r.$result.push(await createFile(octokit, item, isLfsFile(item.path!), repo, branch))
                     } else {
                         const folder: FolderDatasourceContent = {
                             content: r[name].$result,

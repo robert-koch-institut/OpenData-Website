@@ -3340,13 +3340,13 @@ function treeIt(octokit, items, isLfsFile, repo, branch) {
     return __awaiter(this, void 0, void 0, function* () {
         const result = [];
         let level = { $result: result };
-        items.forEach(item => {
+        yield items.forEach((item) => __awaiter(this, void 0, void 0, function* () {
             if (item.type === 'blob' && item.path) {
-                item.path.split('/').reduce((r, name, i, a) => {
+                yield item.path.split('/').reduce((r, name, i, a) => __awaiter(this, void 0, void 0, function* () {
                     if (!r[name]) {
                         r[name] = { $result: [] };
                         if (i === a.length - 1) {
-                            r.$result.push(createFile(octokit, item, isLfsFile(item.path), repo, branch));
+                            r.$result.push(yield createFile(octokit, item, isLfsFile(item.path), repo, branch));
                         }
                         else {
                             const folder = {
@@ -3359,10 +3359,10 @@ function treeIt(octokit, items, isLfsFile, repo, branch) {
                         }
                     }
                     return r[name];
-                }, level);
+                }), level);
             }
             ;
-        });
+        }));
         return result;
     });
 }
