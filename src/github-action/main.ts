@@ -196,13 +196,13 @@ async function treeIt(octokit: OctokitApi, items: GithubTreeItem[], isLfsFile: (
     for (const item of items) {
         if (item.type === 'blob' && item.path) {
             const splittedFilePath = item.path.split('/');
-            const folderPath = _.initial(splittedFilePath).join('/');
 
             for (let i = 0; i < splittedFilePath.length; i++) {
                 const name = splittedFilePath[i];
                 // let dsContent: DatasourceContent;
 
                 if (i === splittedFilePath.length - 1) {
+                    const folderPath = _.initial(splittedFilePath).join('/');
                     const file = await createFile(octokit, item, isLfsFile(item.path!), repo, branch);
                     if (splittedFilePath.length === 1) {
                         result.push(file);
@@ -210,6 +210,7 @@ async function treeIt(octokit: OctokitApi, items: GithubTreeItem[], isLfsFile: (
                         folders.get(folderPath)!.content.push(file);
                     }
                 } else {
+                    const folderPath = splittedFilePath.join('/');
                     if (!folders.has(folderPath)) {
                         const folder: FolderDatasourceContent = {
                             content: [],
@@ -218,7 +219,7 @@ async function treeIt(octokit: OctokitApi, items: GithubTreeItem[], isLfsFile: (
                             $type: 'folder'
                         };
                         folders.set(folderPath, folder);
-                        if (splittedFilePath.length === 2) {
+                        if (folderPath === name) {
                             result.push(folder);
                         } else {
                             folders.get(folderPath)!.content.push(folder);

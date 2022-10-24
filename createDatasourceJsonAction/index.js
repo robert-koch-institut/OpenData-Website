@@ -3343,11 +3343,11 @@ function treeIt(octokit, items, isLfsFile, repo, branch) {
         for (const item of items) {
             if (item.type === 'blob' && item.path) {
                 const splittedFilePath = item.path.split('/');
-                const folderPath = _.initial(splittedFilePath).join('/');
                 for (let i = 0; i < splittedFilePath.length; i++) {
                     const name = splittedFilePath[i];
                     // let dsContent: DatasourceContent;
                     if (i === splittedFilePath.length - 1) {
+                        const folderPath = _.initial(splittedFilePath).join('/');
                         const file = yield createFile(octokit, item, isLfsFile(item.path), repo, branch);
                         if (splittedFilePath.length === 1) {
                             result.push(file);
@@ -3357,6 +3357,7 @@ function treeIt(octokit, items, isLfsFile, repo, branch) {
                         }
                     }
                     else {
+                        const folderPath = splittedFilePath.join('/');
                         if (!folders.has(folderPath)) {
                             const folder = {
                                 content: [],
@@ -3365,7 +3366,7 @@ function treeIt(octokit, items, isLfsFile, repo, branch) {
                                 $type: 'folder'
                             };
                             folders.set(folderPath, folder);
-                            if (splittedFilePath.length === 2) {
+                            if (folderPath === name) {
                                 result.push(folder);
                             }
                             else {
