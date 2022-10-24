@@ -2,33 +2,16 @@
 @use "sass:math";
 @use "@angular/material" as mat;
 @import "/src/palettes.scss";
+@import "/src/constants.scss";
 
-$default-section-margin-vertical: 60px;
-$default-section-margin-horizontal: 72px;
 
-$default-component-margin-vertical: 16px;
-$default-component-margin-horizontal: 32px;
 
-$max-width: 1300px;
 $nebel: map.get($rki-nebel, 400);
 
 :host {
     display: block;
     flex: 1;
     max-width: 100%;
-}
-
-.title-date-container {
-    display: flex;
-    flex-direction: row;
-
-    .title {
-        flex: 1;
-    }
-
-    .date {
-        flex: 0 0 auto;
-    }
 }
 
 @mixin home-page-component($theme) {
@@ -43,19 +26,19 @@ $nebel: map.get($rki-nebel, 400);
         flex-direction: column;
         align-items: center;
 
-        .rki-logo-container {
-            display: flex;
-            justify-content: center;
+        // .rki-logo-container {
+        //     display: flex;
+        //     justify-content: center;
 
-            .rki-logo {
-                background-image: url("../../../assets/RKI_Logo.png");
-                background-repeat: no-repeat;
-                background-size: contain;
-                height: 75px;
-                width: 255px;
-                margin: 25px 0;
-            }
-        }
+        //     .rki-logo {
+        //         background-image: url("../../../assets/RKI_Logo.png");
+        //         background-repeat: no-repeat;
+        //         background-size: contain;
+        //         height: 75px;
+        //         width: 255px;
+        //         margin: 25px 0;
+        //     }
+        // }
 
         .header {
             background: mat.get-color-from-palette($primary-palette);
@@ -65,7 +48,7 @@ $nebel: map.get($rki-nebel, 400);
 
             .header-image-background {
                 background: mat.get-color-from-palette($primary-palette);
-                padding: 90px $default-section-margin-horizontal;
+                padding: ($default-section-margin-vertical + ($default-section-margin-vertical / 2)) $default-section-margin-horizontal;
                 color: white;
                 background-image: url("../../../assets/header_background.png");
                 background-size: cover;
@@ -97,6 +80,19 @@ $nebel: map.get($rki-nebel, 400);
                 }
             }
         }
+
+        // .title-date-container {
+        //     display: flex;
+        //     flex-direction: row;
+        
+        //     .title {
+        //         flex: 1;
+        //     }
+        
+        //     .date {
+        //         flex: 0 0 auto;
+        //     }
+        // }
 
         .abstract-tag-container {
             width: 100%;
@@ -137,7 +133,7 @@ $nebel: map.get($rki-nebel, 400);
             justify-content: center;
 
             .date {
-                margin-top: -16px;
+                margin-top: -$default-component-margin-vertical;
                 margin-bottom: $default-component-margin-vertical;
             }
 
@@ -195,14 +191,6 @@ $nebel: map.get($rki-nebel, 400);
             box-sizing: border-box;
             gap: $default-component-margin-horizontal;
 
-            &.small {
-                flex-wrap: wrap;
-                gap: unset;
-                .left-column {
-                    display: none;
-                }
-            }
-
             .left-column {
                 flex: 1 1 calc(25% - #{$default-component-margin-horizontal * 0.25});
             }
@@ -217,6 +205,76 @@ $nebel: map.get($rki-nebel, 400);
         app-datasource-licence .mat-chip.mat-standard-chip.mat-chip-selected.mat-primary {
             background-color: mat.get-color-from-palette($primary-palette, "default-contrast");
             color: mat.get-color-from-palette($primary-palette);
+        }
+    }
+
+    .home-page.small {
+
+        .header {
+            .header-image-background {
+                padding: ($default-small-section-margin-vertical + ($default-small-section-margin-vertical / 2)) $default-small-section-margin-horizontal;
+            }
+        }
+
+        .abstract-tag-container {
+            gap: $default-small-component-margin-horizontal;
+            padding: $default-small-section-margin-vertical $default-small-section-margin-horizontal;
+        }
+
+        .content-cite-licence-container {
+            padding: $default-small-section-margin-vertical 0;
+
+            .date {
+                margin-top: -$default-small-component-margin-vertical;
+                margin-bottom: $default-small-component-margin-vertical;
+            }
+
+            app-datasource-links {
+                margin-bottom: $default-small-component-margin-vertical;
+            }
+
+            app-datasource-licence {
+                margin-bottom: $default-small-component-margin-vertical;
+            }
+
+            app-datasource-cite {
+                margin-bottom: $default-small-component-margin-vertical;
+            }
+
+            .row {
+                gap: $default-small-component-margin-horizontal;
+                padding: 0 $default-small-section-margin-horizontal;
+
+                .left-column {
+                    flex: 1 1 calc(25% - #{$default-small-component-margin-horizontal * 0.25});
+                }
+               
+                .right-column {
+                    flex: 1 1 calc(75% - #{$default-small-component-margin-horizontal * 0.75});
+                    
+                    @media (min-width: 1235px) {
+                        max-width: calc(75% - #{$default-small-component-margin-horizontal * 0.75});
+                    }
+                }
+            }
+        }
+
+        .doc-container {
+
+            padding: $default-small-section-margin-vertical $default-small-section-margin-horizontal;
+            gap: $default-small-component-margin-horizontal;
+
+            .left-column {
+                display: none;
+                flex: 1 1 calc(25% - #{$default-small-component-margin-horizontal * 0.25});
+            }
+
+            .right-column {
+                flex: 1 1 calc(75% - #{$default-small-component-margin-horizontal * 0.75});
+                width: 100%;
+                overflow: hidden;
+            }
+
         }
     }
 }

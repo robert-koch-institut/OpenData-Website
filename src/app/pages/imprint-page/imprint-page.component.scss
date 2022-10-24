@@ -1,0 +1,32 @@
+@import "/src/constants.scss";
+
+:host {
+    display: block;
+    flex: 1;
+    max-width: 100%;
+}
+
+@mixin imprint-page-component($theme) {
+    .imprint-page {
+        position: relative;
+        max-width: $max-width;
+        margin-left: auto;
+        margin-right: auto;
+
+        padding: 0 $default-section-margin-horizontal $default-section-margin-vertical $default-section-margin-horizontal;
+
+        .nav-to-root {
+            position: absolute;
+            top: 16px;
+            right: $default-section-margin-horizontal;
+        }
+    }
+
+    .imprint-page.small {
+        padding: 0 $default-small-section-margin-horizontal $default-small-section-margin-vertical $default-small-section-margin-horizontal;
+
+        .nav-to-root {
+            right: $default-small-section-margin-horizontal;
+        }
+    }
+}

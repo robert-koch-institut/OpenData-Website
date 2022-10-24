@@ -33,6 +33,7 @@ export interface FileDatasourceContent {
     previewUrl: string;
     downloadUrl: string;
     visitUrl: string;
+    size: number;
     lfs: boolean;
 }
 

@@ -42,9 +42,9 @@ export class DatasourceCiteComponent implements OnInit, OnChanges {
     }
 
     let creatorStr = '';
-    if (this.datasource.authors.length >= 4) {
-      creatorStr = `${this.datasource.authors[0]}, et al.`;
-    } else {
+    // if (this.datasource.authors.length >= 4) {
+    //   creatorStr = `${this.datasource.authors[0]}, et al.`;
+    // } else {
       creatorStr = _.reduce(this.datasource.authors, (prev, curr, i, arr) => {
         const isLast = i === arr.length - 1;
         if (i === 0) {
@@ -56,7 +56,7 @@ export class DatasourceCiteComponent implements OnInit, OnChanges {
         }
         return prev;
       }, '')
-    }
+    // }
 
     return `${creatorStr} (${this.datePipe.transform(this.datasource.lastUpdated, 'yyyy')}): ${this.datasource.name}, Berlin:Zenodo. DOI: ${this.datasource.doi}`;
   }

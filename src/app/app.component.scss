@@ -1,11 +1,66 @@
-.content {
-    display: flex;
-    max-width: 100%;
-}
+@use "sass:map";
+@use "@angular/material" as mat;
+@import "/src/palettes.scss";
+@import "/src/constants.scss";
 
+@mixin app-component($theme) {
+    $color-config: mat.get-color-config($theme);
+    $primary-palette: map.get($color-config, "primary");
+    $accent-palette: map.get($color-config, "accent");
+    $nebel: map.get($rki-nebel, 400);
+
+    .app-component {
+        max-width: 100%;
+        
+        .rki-logo-container {
+            display: flex;
+            justify-content: center;
+
+            .rki-logo {
+                background-image: url("../assets/RKI_Logo.png");
+                background-repeat: no-repeat;
+                background-size: contain;
+                height: 75px;
+                width: 255px;
+                margin: 25px 0;
+            }
+        }
+
+        .content {
+            display: flex;
+            max-width: 100%;
+            min-height: calc(100vh - 56px);
+        }
+
+        footer {
+            display: flex;
+            justify-content: center;
+
+            background-color: $nebel;
+            max-width: 100%;
+
+            .footer-wrapper {
+                display: flex;
+                max-width: $max-width;
+                gap: 16px;
+                flex: 1;
+
+                padding: $default-component-margin-vertical $default-section-margin-horizontal;
+            }
+        }
+    }
+
+    .app-component.small {
+        footer {
+            .footer-wrapper {
+                padding: $default-small-component-margin-vertical $default-small-section-margin-horizontal;
+            }
+        }
+    }
+}
 // .datasource-page{
 //     padding: 15px;
-    
+
 //     .link-container {
 //         display: flex;
 //         flex-direction: row;
@@ -28,7 +83,7 @@
 
 //         .zenodo-link {
 //             width: 156px;
-            
+
 //             // @if $is-dark {
 //             //     background-image: url("/assets/zenodo_logo_white.svg");
 //             // } @else {

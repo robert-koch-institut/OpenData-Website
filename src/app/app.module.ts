@@ -64,6 +64,9 @@ import { DatasourceContentExtPipe } from './pipes/datasource-content-ext.pipe';
 import { FilenameBeautifyPipe } from './pipes/filename-beautify.pipe';
 import { JsonPreviewComponent } from './components/json-preview/json-preview.component';
 import { HighlightModule, HIGHLIGHT_OPTIONS } from 'ngx-highlightjs';
+import { ImprintComponent } from './pages/imprint-page/imprint-page.component';
+import { PrivacyComponent } from './pages/privacy-page/privacy-page.component';
+import { FileSizePipe } from './pipes/file-size.pipe';
 
 registerLocaleData(localeDe, 'de');
 
@@ -124,7 +127,10 @@ function getBaseHref(platformLocation: PlatformLocation): string {
     ExtentionToIconnamePipe,
     DatasourceContentExtPipe,
     FilenameBeautifyPipe,
-    JsonPreviewComponent
+    JsonPreviewComponent,
+    ImprintComponent,
+    PrivacyComponent,
+    FileSizePipe
   ],
   imports: [
     BrowserAnimationsModule,

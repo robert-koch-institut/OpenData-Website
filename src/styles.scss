@@ -4,6 +4,7 @@
 @use '@angular/material' as mat;
 
 // Plus imports for other components in your app.
+@import "app/app.component.scss";
 @import "app/components/datasource-content-preview/datasource-content-preview.component.scss";
 @import "app/components/datasource-readme/datasource-readme.component.scss";
 @import "app/components/image-preview/image-preview.component.scss";
@@ -16,6 +17,8 @@
 @import "app/components/datasource-tags/datasource-tags.component.scss";
 @import "app/components/table-of-content/table-of-content.component.scss";
 @import "app/pages/home-page/home-page.component.scss";
+@import "app/pages/privacy-page/privacy-page.component.scss";
+@import "app/pages/imprint-page/imprint-page.component.scss";
 @import "fonts.scss";
 @import "palettes.scss";
 @import '~highlight.js/styles/github.css';
@@ -79,6 +82,8 @@ $theme: map-merge(
 // that you are using.
 @include mat.all-component-themes($theme);
 
+@include app-component($theme);
+
 @include datasource-content-preview-component($theme);
 @include datasource-readme-component($theme);
 @include image-preview-component($theme);
@@ -86,11 +91,14 @@ $theme: map-merge(
 @include datasource-cite-component($theme);
 @include datasource-layout-component($theme);
 @include datasource-contributor-list-component($theme);
-@include home-page-component($theme);
 @include datasource-links-component($theme);
 @include datasource-licence-component($theme);
 @include datasource-tags-component($theme);
 @include toc-component($theme);
+
+@include home-page-component($theme);
+@include privacy-page-component($theme);
+@include imprint-page-component($theme);
 
 /* You can add global styles to this file, and also import other style files */
 
