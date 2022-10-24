@@ -193,7 +193,7 @@ async function treeIt(octokit: OctokitApi, items: GithubTreeItem[], isLfsFile: (
     const result: DatasourceContent[] = [];
     const folders = new Map<string, FolderDatasourceContent>();
 
-    for (const item of items) {
+    for (const item of _.orderBy(items, x => x.path?.length)) {
         if (item.type === 'blob' && item.path) {
             const splittedFilePath = item.path.split('/');
 

@@ -3340,7 +3340,7 @@ function treeIt(octokit, items, isLfsFile, repo, branch) {
     return __awaiter(this, void 0, void 0, function* () {
         const result = [];
         const folders = new Map();
-        for (const item of items) {
+        for (const item of _.orderBy(items, x => { var _a; return (_a = x.path) === null || _a === void 0 ? void 0 : _a.length; })) {
             if (item.type === 'blob' && item.path) {
                 const splittedFilePath = item.path.split('/');
                 for (let i = 0; i < splittedFilePath.length; i++) {
