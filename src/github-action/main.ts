@@ -188,33 +188,32 @@ async function createFile(octokit: OctokitApi, item: GithubTreeItem, isLfs: bool
 
 async function treeIt(octokit: OctokitApi, items: GithubTreeItem[], isLfsFile: (x: string) => boolean, repo: { repo: string, owner: string }, branch: string) {
     const result: DatasourceContent[] = [];
-    let level = { $result: result } as any;
+    let level: any = { $result: result };
 
-    items.forEach(async (item) => {
+    items.forEach(item => {
         if (item.type === 'blob' && item.path) {
-            const splittedPath = item.path.split('/');
-            splittedPath.reduce(async (r, name, i, a) => {
+            item.path.split('/').reduce(async (r, name, i, a) => {
                 if (!r[name]) {
                     r[name] = { $result: [] };
 
                     if (i === a.length - 1) {
-                        const file = createFile(octokit, item, isLfsFile(item.path!), repo, branch);
-                        r.$result.push(file);
+                        r.$result.push(await createFile(octokit, item, isLfsFile(item.path!), repo, branch))
                     } else {
                         const folder: FolderDatasourceContent = {
-                            content: await Promise.all(r[name].$result),
+                            content: r[name].$result,
                             path: _.initial(item.path!.split('/')).join('/'),
                             name,
                             $type: 'folder'
                         };
-                        r.$result.push(Promise.resolve(folder));
+                        r.$result.push(folder)
                     }
                 }
-                return await r[name];
+                return r[name];
             }, level);
 
         };
     });
+
     return result;
 }
 
