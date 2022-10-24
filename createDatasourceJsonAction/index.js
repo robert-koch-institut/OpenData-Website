@@ -3339,30 +3339,39 @@ function createFile(octokit, item, isLfs, repo, branch) {
 function treeIt(octokit, items, isLfsFile, repo, branch) {
     return __awaiter(this, void 0, void 0, function* () {
         const result = [];
-        let level = { $result: result };
-        yield items.forEach((item) => __awaiter(this, void 0, void 0, function* () {
+        const folders = new Map();
+        for (const item of items) {
             if (item.type === 'blob' && item.path) {
-                yield item.path.split('/').reduce((r, name, i, a) => __awaiter(this, void 0, void 0, function* () {
-                    if (!r[name]) {
-                        r[name] = { $result: [] };
-                        if (i === a.length - 1) {
-                            r.$result.push(yield createFile(octokit, item, isLfsFile(item.path), repo, branch));
-                        }
-                        else {
-                            const folder = {
-                                content: r[name].$result,
-                                path: _.initial(item.path.split('/')).join('/'),
-                                name,
-                                $type: 'folder'
-                            };
-                            r.$result.push(folder);
-                        }
+                const splittedFilePath = item.path.split('/');
+                const folderPath = _.initial(splittedFilePath).join('/');
+                for (let i = 0; i < splittedFilePath.length; i++) {
+                    const name = splittedFilePath[i];
+                    let dsContent;
+                    if (i === splittedFilePath.length - 1) {
+                        const file = yield createFile(octokit, item, isLfsFile(item.path), repo, branch);
+                        dsContent = file;
+                        // folders.get(folderPath)?.content.push(file);
                     }
-                    return r[name];
-                }), level);
+                    else {
+                        const folder = {
+                            content: [],
+                            path: folderPath,
+                            name,
+                            $type: 'folder'
+                        };
+                        folders.set(folderPath, folder);
+                        dsContent = folder;
+                    }
+                    if (splittedFilePath.length === 1) {
+                        // root thing
+                        result.push(dsContent);
+                    }
+                    else {
+                        folders.get(folderPath).content.push(dsContent);
+                    }
+                }
             }
-            ;
-        }));
+        }
         return result;
     });
 }
