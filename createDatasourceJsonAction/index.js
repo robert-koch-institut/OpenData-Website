@@ -3366,7 +3366,7 @@ function treeIt(octokit, items, isLfsFile, repo, branch) {
                                 $type: 'folder'
                             };
                             folders.set(folderPath, folder);
-                            if (folderPath === name) {
+                            if (splittedFilePath.length === 2) {
                                 result.push(folder);
                             }
                             else {

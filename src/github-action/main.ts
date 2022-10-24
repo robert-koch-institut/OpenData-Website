@@ -219,7 +219,7 @@ async function treeIt(octokit: OctokitApi, items: GithubTreeItem[], isLfsFile: (
                             $type: 'folder'
                         };
                         folders.set(folderPath, folder);
-                        if (folderPath === name) {
+                        if (splittedFilePath.length === 2) {
                             result.push(folder);
                         } else {
                             folders.get(folderPath)!.content.push(folder);
