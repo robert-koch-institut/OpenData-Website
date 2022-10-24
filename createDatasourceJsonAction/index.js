@@ -3340,41 +3340,35 @@ function treeIt(octokit, items, isLfsFile, repo, branch) {
     return __awaiter(this, void 0, void 0, function* () {
         const result = [];
         const folders = new Map();
-        for (const item of _.orderBy(items, x => { var _a; return (_a = x.path) === null || _a === void 0 ? void 0 : _a.length; })) {
-            if (item.type === 'blob' && item.path) {
-                const splittedFilePath = item.path.split('/');
-                for (let i = 0; i < splittedFilePath.length; i++) {
-                    const name = splittedFilePath[i];
-                    // let dsContent: DatasourceContent;
-                    if (i === splittedFilePath.length - 1) {
-                        const folderPath = _.initial(splittedFilePath).join('/');
-                        const file = yield createFile(octokit, item, isLfsFile(item.path), repo, branch);
-                        if (splittedFilePath.length === 1) {
-                            result.push(file);
-                        }
-                        else {
-                            folders.get(folderPath).content.push(file);
-                        }
-                    }
-                    else {
-                        const folderPath = splittedFilePath.join('/');
-                        if (!folders.has(folderPath)) {
-                            const folder = {
-                                content: [],
-                                path: folderPath,
-                                name,
-                                $type: 'folder'
-                            };
-                            folders.set(folderPath, folder);
-                            if (splittedFilePath.length === 2) {
-                                result.push(folder);
-                            }
-                            else {
-                                folders.get(folderPath).content.push(folder);
-                            }
-                        }
-                    }
-                }
+        const folderItems = _.orderBy(items.filter(x => x.type === 'tree' && x.path), x => { var _a; return (_a = x.path) === null || _a === void 0 ? void 0 : _a.length; });
+        for (const folder of folderItems) {
+            const splittedPath = folder.path.split('/');
+            const name = _.last(splittedPath);
+            const isRootFolder = splittedPath.length === 1;
+            const f = {
+                content: [],
+                path: folder.path,
+                name,
+                $type: 'folder'
+            };
+            folders.set(folder.path, f);
+            if (isRootFolder) {
+                result.push(f);
+            }
+            else {
+                folders.get(_.initial(splittedPath).join('/')).content.push(f);
+            }
+        }
+        const fileItems = items.filter(x => x.type === 'blob' && x.path);
+        for (const file of fileItems) {
+            const splittedFilePath = file.path.split('/');
+            const folderPath = _.initial(splittedFilePath).join('/');
+            const f = yield createFile(octokit, file, isLfsFile(file.path), repo, branch);
+            if (splittedFilePath.length === 1) {
+                result.push(f);
+            }
+            else {
+                folders.get(folderPath).content.push(f);
             }
         }
         return result;
