@@ -11,12 +11,14 @@ import { PdfViewerModule } from 'ng2-pdf-viewer';
 import { MatIconModule } from '@angular/material/icon';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatTreeModule } from '@angular/material/tree';
 import { LayoutModule } from '@angular/cdk/layout';
+import { ScrollingModule } from '@angular/cdk/scrolling';
 import { NgxPageScrollCoreModule } from 'ngx-page-scroll-core';
 import { FullscreenOverlayContainer, OverlayContainer, OverlayModule } from '@angular/cdk/overlay';
 import { MatInputModule } from '@angular/material/input';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { DatasourceReadmeComponent } from './components/datasource-readme/datasource-readme.component';
 import { MarkdownModule, MarkedOptions, MarkedRenderer } from 'ngx-markdown';
@@ -29,6 +31,7 @@ import { LoadingIndicatorComponent } from './components/loading-indicator/loadin
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatTableModule } from '@angular/material/table';
 import { MatButtonModule } from '@angular/material/button';
+import { MatDatepickerModule } from '@angular/material/datepicker';
 import { ClipboardModule } from '@angular/cdk/clipboard';
 import { CdkTreeModule } from '@angular/cdk/tree';
 import { MatMenuModule } from '@angular/material/menu';
@@ -38,6 +41,7 @@ import { SafeHtmlPipe } from './pipes/safe-html.pipe';
 import { FormatIfNumberPipe } from './pipes/format-if-number.pipe';
 import { APP_BASE_HREF, PlatformLocation, registerLocaleData } from '@angular/common';
 import localeDe from '@angular/common/locales/de';
+import { de } from 'date-fns/locale';
 import { DatasourceCiteComponent } from './components/datasource-cite/datasource-cite.component';
 import { DatasourceLicenceComponent } from './components/datasource-licence/datasource-licence.component';
 import { DatasourceTagsComponent } from './components/datasource-tags/datasource-tags.component';
@@ -45,10 +49,13 @@ import { DatasourceContributorListComponent } from './components/datasource-cont
 import { HttpClientModule } from '@angular/common/http';
 import { AfterComponentInitDirective } from './directives/after-component-init.directive';
 import { FileDownloadComponent } from './components/file-download/file-download.component';
-import { MatSnackBarModule } from '@angular/material/snack-bar'
-import { MatCardModule } from '@angular/material/card'
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatCardModule } from '@angular/material/card';
+import { MatBadgeModule } from '@angular/material/badge'
 import { ContributorRoleLabelPipe } from './pipes/contributor-role-label.pipe';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { MtxSliderModule } from '@ng-matero/extensions/slider';
+import { MatRadioModule } from '@angular/material/radio';
 import { AppRoutingModule } from './app-routing.module';
 import { DatasourceContentPageComponent } from './pages/datasource-content-page/datasource-content-page.component';
 import { HomePageComponent } from './pages/home-page/home-page.component';
@@ -67,6 +74,9 @@ import { HighlightModule, HIGHLIGHT_OPTIONS } from 'ngx-highlightjs';
 import { ImprintComponent } from './pages/imprint-page/imprint-page.component';
 import { PrivacyComponent } from './pages/privacy-page/privacy-page.component';
 import { FileSizePipe } from './pipes/file-size.pipe';
+import { CsvTableFilterComponent } from './components/csv-table-filter/csv-table-filter.component';
+import { DateFnsAdapter, DateFnsModule, MAT_DATE_FNS_FORMATS } from '@angular/material-date-fns-adapter';
+import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
 
 registerLocaleData(localeDe, 'de');
 
@@ -130,13 +140,15 @@ function getBaseHref(platformLocation: PlatformLocation): string {
     JsonPreviewComponent,
     ImprintComponent,
     PrivacyComponent,
-    FileSizePipe
+    FileSizePipe,
+    CsvTableFilterComponent
   ],
   imports: [
     BrowserAnimationsModule,
     BrowserModule,
     HttpClientModule,
     FormsModule,
+    DateFnsModule,
     LayoutModule,
     MarkdownModule.forRoot({
       sanitize: SecurityContext.NONE,
@@ -150,14 +162,22 @@ function getBaseHref(platformLocation: PlatformLocation): string {
     MatListModule,
     MatIconModule,
     MatTreeModule,
+    MatBadgeModule,
+    MatDatepickerModule,
+    MatRadioModule,
     MatButtonModule,
     MatTableModule,
+    MatCheckboxModule,
     ClipboardModule,
     CdkTreeModule,
     HighlightModule,
     MatMenuModule,
+    ScrollingModule,
+    MtxSliderModule,
     MatFormFieldModule,
     OverlayModule,
+    FormsModule,
+    ReactiveFormsModule,
     MatTooltipModule,
     MatSnackBarModule,
     MatCardModule,
@@ -174,6 +194,9 @@ function getBaseHref(platformLocation: PlatformLocation): string {
   providers: [
     { provide: LOCALE_ID, useValue: 'de' },
     { provide: OverlayContainer, useClass: FullscreenOverlayContainer },
+    { provide: DateAdapter, useClass: DateFnsAdapter },
+    { provide: MAT_DATE_FORMATS, useValue: MAT_DATE_FNS_FORMATS },
+    { provide: MAT_DATE_LOCALE, useValue: de },
     { provide: APP_BASE_HREF, useFactory: getBaseHref, deps: [PlatformLocation] },
     {
       provide: HIGHLIGHT_OPTIONS,

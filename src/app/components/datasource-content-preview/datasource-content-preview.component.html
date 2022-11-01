@@ -46,7 +46,7 @@
           <app-pdf-preview [pdfSrc]="content.previewUrl"></app-pdf-preview>
         </ng-container>
         <ng-container *ngSwitchCase="'csv'">
-          <app-csv-table [csvUrl]="content.previewUrl" [isLfs]="content.lfs" [fileName]="content.name"></app-csv-table>
+          <app-csv-table [csvUrl]="content.previewUrl" [fileName]="content.name" [noParseFields]="fieldsNotToParse"></app-csv-table>
         </ng-container>
         <ng-container *ngSwitchCase="'jpg'">
           <app-image-preview [imgUrl]="content.previewUrl"></app-image-preview>

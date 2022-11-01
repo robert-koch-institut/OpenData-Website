@@ -21,14 +21,12 @@
     height: 100%;
     max-width: 100%;
 
-    .loading-indicator{
+    .loading-indicator {
         max-width: 100%;
-        
     }
 
-    .lfs-indicator{
+    .lfs-indicator {
         margin-top: 2em;
-        
     }
 }
 
@@ -51,6 +49,22 @@ table {
 
     // box-sizing: border-box;
     // border: 1px solid black;
+}
+
+.header-container {
+    display: inline-flex;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+
+    .title {
+        flex: 1;
+        font-size: 14px;
+    }
+
+    .filter {
+        flex: 0 0 auto;
+    }
 }
 
 th.mat-header-cell,
@@ -79,6 +93,10 @@ tr.mat-row {
 
 .filter-form-field {
     width: 100%;
+}
+
+.footer {
+    text-align: right;
 }
 // .mat-footer-row,
 // .mat-header-row,

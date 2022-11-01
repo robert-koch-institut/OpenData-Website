@@ -48,7 +48,7 @@ $nebel: map.get($rki-nebel, 400);
 
             .header-image-background {
                 background: mat.get-color-from-palette($primary-palette);
-                padding: ($default-section-margin-vertical + ($default-section-margin-vertical / 2)) $default-section-margin-horizontal;
+                padding: ($default-section-margin-vertical + math.div($default-section-margin-vertical, 2)) $default-section-margin-horizontal;
                 color: white;
                 background-image: url("../../../assets/header_background.png");
                 background-size: cover;
@@ -212,7 +212,7 @@ $nebel: map.get($rki-nebel, 400);
 
         .header {
             .header-image-background {
-                padding: ($default-small-section-margin-vertical + ($default-small-section-margin-vertical / 2)) $default-small-section-margin-horizontal;
+                padding: ($default-small-section-margin-vertical + math.div($default-small-section-margin-vertical, 2)) $default-small-section-margin-horizontal;
             }
         }
 

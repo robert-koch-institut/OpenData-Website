@@ -1,30 +1,46 @@
 <!-- <div *ngIf="tableData$ | async as tableData; else loading" class="container"> -->
 <div *ngIf="tableData$ | async as tableData; else loading" class="container">
-    <mat-form-field appearance="standard" class="filter-form-field">
+    <!-- <mat-form-field appearance="standard" class="filter-form-field">
         <mat-label>Filter</mat-label>
         <input matInput (keyup)="applyFilter($event, tableData)" placeholder="Bsp.: 2021-" #input>
-    </mat-form-field>
+    </mat-form-field> -->
 
-    <!-- <div *ngIf="isLfs">
-        <p class="warn">STORED UNDER LFS! DATA IS TRUNCATED</p>
-    </div> -->
 
     <div #tableContainer class="table-container">
-        <cdk-virtual-scroll-viewport tvsItemSize="32" headerHeight="56" style="height: calc(100%);">
-            <table mat-table [dataSource]="tableData.data" matSort (afterComponentInit)="afterTableInit(tableData)">
-                <ng-container *ngFor="let column of tableData.columns" [matColumnDef]="column">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header> {{column}} </th>
-                    <td mat-cell *matCellDef="let element"> {{element[column] | formatIfNumber:column}} </td>
-                    <td mat-footer-cell *matFooterCellDef [attr.colspan]="tableData.columns.length" class="lfs-cell">
-                        Zeilen abgeschnitten, weil LFS!!!!
+        <cdk-virtual-scroll-viewport tvsItemSize="32" headerHeight="56" style="height: calc(100%);"
+            [footerEnabled]="true">
+            <table mat-table [dataSource]="tableData.datasource" matSort
+                (afterComponentInit)="afterTableInit(tableData)">
+                <ng-container *ngFor="let column of tableData.columns" [matColumnDef]="column.field">
+                    <th mat-header-cell *matHeaderCellDef>
+                        <div class="header-container">
+                            <div class="title" mat-sort-header>{{column.field}}</div>
+                            <app-csv-table-filter [filter]="column.filter"
+                                (onColumnFilterChanged)="tableData.updateFilter()"></app-csv-table-filter>
+                        </div>
+                    </th>
+
+                    <td mat-cell *matCellDef="let element"> {{element[column.field] | formatIfNumber:column.field}}
                     </td>
                 </ng-container>
 
-                <tr mat-header-row *matHeaderRowDef="tableData.columns"></tr>
-                <tr mat-row *matRowDef="let row; columns: tableData.columns"></tr>
-                <tr mat-footer-row *matFooterRowDef="[tableData.columns[0]]" [hidden]="!isLfs"></tr>
+                <!-- <ng-container matColumnDef="_dummyFooter">
+                    <td mat-footer-cell *matFooterCellDef [colSpan]="tableData.fields.length">
+                        Please note that the cost of items displayed are completely and totally made up.
+                    </td>
+                </ng-container> -->
+
+
+
+                <tr mat-header-row *matHeaderRowDef="tableData.fields"></tr>
+                <tr mat-row *matRowDef="let row; columns: tableData.fields"></tr>
+                <!-- <tr mat-footer-row *matFooterRowDef="['_dummyFooter']; sticky: true"></tr> -->
             </table>
         </cdk-virtual-scroll-viewport>
+    </div>
+    <div class="footer" *ngIf="tableData.anyActiveFilter">
+        Einträge gefiltert: {{ tableData.filterRowCount | number }} von {{tableData.rowCount | number}} 
+        <button mat-icon-button (click)="tableData.clearFilter()" title="Filter enternen"><mat-icon>cancel</mat-icon></button>
     </div>
 </div>
 
@@ -32,9 +48,6 @@
     <div class="loading-container">
         <div class="loading-indicator">
             <app-loading-indicator [text]="'Lade Vorschau für \''+fileName+'\'...'"></app-loading-indicator>
-        </div>
-        <div *ngIf="isLfs" class="lfs-indicator">
-            Laden dauert lange weil LFS!
         </div>
     </div>
 </ng-template>
