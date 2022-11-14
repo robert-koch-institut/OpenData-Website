@@ -78,7 +78,7 @@ export class TableOfContentComponent implements OnInit, OnChanges, AfterViewInit
   private createDocumentationTocItems() {
     const result: TocItem[] = [];
     if (this.datasource) {
-      const compiled = this.markdownService.parse(this.datasource.readme);
+      const compiled = this.markdownService.compile(this.datasource.readme);
       let parent: TocItem | null = null;
 
       let match = this.h2RegEx.exec(compiled);

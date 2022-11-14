@@ -4,7 +4,6 @@
 
 @mixin csv-table-filter-component($theme) {
     $color-config: mat.get-color-config($theme);
-    @debug $color-config;
 
     $primary-palette: map.get($color-config, "primary");
     $accent-palette: map.get($color-config, "accent");
