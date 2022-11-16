@@ -9,7 +9,9 @@ import { TableVirtualScrollDataSource } from 'ng-table-virtual-scroll';
 import * as Papa from 'papaparse';
 import { AsyncSubject, BehaviorSubject, Observable, of } from 'rxjs';
 import { delay, map, tap } from 'rxjs/operators';
+import { ROW_COUNT_FILTER_LIMIT } from 'src/app/models/constants';
 import { TableData, TableColumn, TableCategoryColumnFilter, TableColumnFilterPredicate, TableColumnFilter, TableNumberColumnFilter, TableDateColumnFilter } from 'src/app/models/table-data';
+import { FormatIfNumberPipe } from 'src/app/pipes/format-if-number.pipe';
 
 
 
@@ -20,12 +22,13 @@ import { TableData, TableColumn, TableCategoryColumnFilter, TableColumnFilterPre
 })
 export class CsvTableComponent implements OnInit, OnChanges {
 
+
+
   @Input() csvUrl?: string;
   @Input() fileName?: string;
   @Input() noParseFields: string[] = [];
 
   tableData$?: Observable<TableData>;
-  private updateTableFilter$ = new BehaviorSubject<any>(undefined);
 
   @ViewChild(MatSort) sort?: MatSort;
   @ViewChild('tableContainer') tableContainer?: ElementRef;
@@ -41,11 +44,6 @@ export class CsvTableComponent implements OnInit, OnChanges {
       this.updateTableData();
     }
   }
-
-  // applyFilter = _.debounce((event: Event, tableData: TableData) => {
-  //   const filterValue = (event.target as HTMLInputElement).value;
-  //   tableData.data.filter = filterValue.trim().toLowerCase();
-  // }, 250);
 
   ngAfterViewInit() {
   }
@@ -97,6 +95,10 @@ export class CsvTableComponent implements OnInit, OnChanges {
   private readonly numberDefaults = { min: Number.MAX_SAFE_INTEGER, max: Number.MIN_SAFE_INTEGER };
   private readonly dateDefaults = { min: new Date(4000, 12, 31), max: new Date(0) };
   private createColumns(fields: string[], data: any[]): any {
+    if (data.length > ROW_COUNT_FILTER_LIMIT) {
+      return fields.map(x => new TableColumn(x));
+    }
+
     const result = _.reduce(data, (prev, curr, i) => {
       _.toPairs(prev).forEach(([field, obj]) => {
         const value = curr[field];
@@ -140,15 +142,20 @@ export class CsvTableComponent implements OnInit, OnChanges {
         filter = new TableDateColumnFilter(k, x.date.min, x.date.max);
       }
 
-      if ([x.category.size > 0, x.number.min !== Number.MAX_SAFE_INTEGER && x.number.max !== Number.MIN_SAFE_INTEGER, x.date.min !== this.dateDefaults.min && x.date.max !== this.dateDefaults.max].filter(x => x).length > 1) {
+      const valueTypePredicates = [
+        x.category.size > 0,
+        x.number.min !== this.numberDefaults.min && x.number.max !== this.numberDefaults.max,
+        x.date.min !== this.dateDefaults.min && x.date.max !== this.dateDefaults.max && differenceInCalendarDays(x.date.max, x.date.min) > 1
+      ]
+      const valueTypes = valueTypePredicates.filter(x => x);
+      if (valueTypes.length > 1) {
         console.warn(`More than one value type detected in field '${k}'.`);
+        const categories = _.uniqBy(data, k).map(x => x[k]);
+        filter = new TableCategoryColumnFilter(k, categories);
       }
 
       return new TableColumn(k, filter);
     });
   }
 
-  // onColumnFilterChanged(col: TableColumn, predicate: TableColumnFilterPredicate) {
-  //   this.tableData$
-  // }
 }

@@ -53,11 +53,11 @@ export class CsvTableFilterComponent implements OnInit {
   }
 
   onOverlayOutsideClick(event: MouseEvent, trigger: CdkOverlayOrigin, overlay: any) {
-    console.log("OVERLAY", overlay);
+    // console.log("OVERLAY", overlay);
     const htmlTarget = event.target as HTMLElement;
     if (htmlTarget) {
       const parents = this.allParents(htmlTarget);
-      console.log("CLICK", event, trigger, parents);
+      // console.log("CLICK", event, trigger, parents);
       if (parents.every(p => p !== trigger.elementRef.nativeElement && !p.classList.contains('mat-datepicker-popup'))) {
         this.isOpen = false;
       }

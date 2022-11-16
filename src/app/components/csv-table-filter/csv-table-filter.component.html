@@ -39,7 +39,7 @@
                     <mat-list-option
                         *ngFor="let category of (searchResult ?? tableCategoryFilter.categories); trackBy:categoryValue"
                         [value]="category" [selected]="category.checked">
-                        {{category.value}}
+                        {{category.value | formatIfNumber}}
                     </mat-list-option>
                 </mat-selection-list>
             </div>
