@@ -46,12 +46,12 @@ Die Datei- und Ordnerstruktur des Datensatz-Repositories wird auf der Datensatz-
 Für das Deployment der Datensatz-Website zwei GitHub-Actions zentral, beide sind im vorliegenden Repository enthalten. 
 Im Unterordner [`/createDatasourceJsonAction/`](/createDatasourceJsonAction/) befindest sich die Action "Create datasource.json", die mittels der Github-API alle für die Website benötigten Daten zusammenträgt und in eine JSON-Datei schreibt (./src/app/data/datasource.json).
 
-Über die im Root-Verzeichnis enthaltene [action.yml](#Action-Bulid-and-deploy-Opendata-Website) stellt das Repository selbst die aufrufbare Action "Bulid and deploy Opendata-Website" dar. Die [action.yml](#Action-Bulid-and-deploy-Opendata-Website) enthält alle Schritte, um die Datensatz-Website für eigene Datensatz-Repositories zu bauen und deployen. Die Action "Create datasource.json" ist dabei ein Teilschritt des Workflows der Action "Bulid and deploy Opendata-Website".  
+Über die im Root-Verzeichnis enthaltene [action.yml](#Action-Build-and-deploy-Opendata-Website) stellt das Repository selbst die aufrufbare Action "Build and deploy Opendata-Website" dar. Die [action.yml](#Action-Build-and-deploy-Opendata-Website) enthält alle Schritte, um die Datensatz-Website für eigene Datensatz-Repositories zu bauen und deployen. Die Action "Create datasource.json" ist dabei ein Teilschritt des Workflows der Action "Build and deploy Opendata-Website".  
 Damit die Action erfolgreich ausgeführt werden kann, müssen die oben genannten [Voraussetzungen](#voraussetzungen) erfüllt sein.
 
 ### Action "Create datasource.json"
 
-Die Action "Create datasource.json" ist für das Erstellen der datasource.json (`/src/app/data/datasource.json`) verantwortlich und wird im Workflow der Action ["Bulid and deploy Opendata-Website" ](#Action-Bulid-and-deploy-Opendata-Website) aufgerufen. Der Quellcode der Action befindet sich in `/src/github-action`. Folgende Schritte werden durch die Action ausgeführt:
+Die Action "Create datasource.json" ist für das Erstellen der datasource.json (`/src/app/data/datasource.json`) verantwortlich und wird im Workflow der Action ["Build and deploy Opendata-Website" ](#Action-Build-and-deploy-Opendata-Website) aufgerufen. Der Quellcode der Action befindet sich in `/src/github-action`. Folgende Schritte werden durch die Action ausgeführt:
 
 1. Authentifizierung an GitHub-API mittels GH_TOKEN
 2. Abfragen des Datensatz-Repositories, aus dem heraus die Action aufgerufen wurde
@@ -62,9 +62,9 @@ Die Action "Create datasource.json" ist für das Erstellen der datasource.json (
 7. Lizenz auslesen
 8. Schreiben der datasource.json nach `./src/app/data/datasource.json`
 
-### Action "Bulid and deploy Opendata-Website" 
+### Action "Build and deploy Opendata-Website" 
 
-Auf Basis der [action.yml](/action.yml) erzeugt und deployed die Action "Bulid and deploy Opendata-Website" eine Datensatz Website des aufrufenden Datensatz-Repositories. Die  Action führt dazu vier Schritte aus, die in der [action.yml](/action.yml) definiert sind:
+Auf Basis der [action.yml](/action.yml) erzeugt und deployed die Action "Build and deploy Opendata-Website" eine Datensatz Website des aufrufenden Datensatz-Repositories. Die  Action führt dazu vier Schritte aus, die in der [action.yml](/action.yml) definiert sind:
 
 1. Pullen es "OpenData-Website"-Repositories
 2. Erzeugen der [datasource.json](#Action-"Create-datasource.json")
