@@ -1,17 +1,22 @@
-
 @mixin vertical-text-overflow-clamp($max-lines) {
-    display: -webkit-box;
-    -webkit-line-clamp: $max-lines;
-    -webkit-box-orient: vertical;
+  display: -webkit-box;
+  -webkit-line-clamp: $max-lines;
+  -webkit-box-orient: vertical;
 
-    // max-height: $max-lines + em;
-    text-overflow: ellipsis;
-    overflow: hidden;
+  // max-height: $max-lines + em;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+@mixin text-overflow-clamp() {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 @mixin theme-background($theme) {
-    $color-config: mat.get-color-config($theme);
-    $background-palette: map.get($color-config, "background");
-  
-    background-color: map.get($background-palette, "background");
-  }
+  $color-config: mat.get-color-config($theme);
+  $background-palette: map.get($color-config, 'background');
+
+  background-color: map.get($background-palette, 'background');
+}

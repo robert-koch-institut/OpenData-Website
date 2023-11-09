@@ -33,6 +33,7 @@
         flex-direction: column;
 
         flex: 1;
+        min-width: 66%;
         gap: $default-component-margin-vertical;
       }
 
@@ -49,8 +50,7 @@
 
         .title {
           @include mat.typography-level($typography, 'title');
-          @include vertical-text-overflow-clamp(1);
-
+          @include text-overflow-clamp();
           display: none;
         }
 
@@ -59,8 +59,6 @@
           margin-left: $default-small-component-margin-horizontal;
         }
       }
-
-
 
       a {
         color: inherit;
@@ -94,27 +92,6 @@
     }
   }
 
-  // .make-header-as-small-as-possible {
-  //   .nav-header {
-  //     // transition: 0.2s;
-
-  //     // .title {
-  //     //   @include vertical-text-overflow-clamp(1);
-  //     // }
-
-  //     .left-col {
-  //       // transition: 0.2s;
-  //     }
-
-  //     .rki-logo-link {
-  //       .rki-logo {
-  //         // max-height: 64px;
-  //         // transition: 0.2s;
-  //       }
-  //     }
-  //   }
-  // }
-
   header.small {
     // @extend .make-header-as-small-as-possible;
     .nav-header {
@@ -125,7 +102,7 @@
         justify-content: space-evenly;
 
         .title {
-          display: -webkit-box;
+          display: block;
         }
       }
 
@@ -147,7 +124,7 @@
 
       .title-container {
         .title {
-          display: -webkit-box;
+          display: block;
         }
       }
     }

@@ -65,6 +65,7 @@ $nebel: map.get($rki-nebel, 400);
                     .title {
                         flex: 1;
                         // min-width: 550px;
+                        word-break: break-word;
 
                         font: 800 45px / 48px Roboto, "Helvetica Neue", sans-serif;
                         letter-spacing: -0.005em;
@@ -84,11 +85,11 @@ $nebel: map.get($rki-nebel, 400);
         // .title-date-container {
         //     display: flex;
         //     flex-direction: row;
-        
+
         //     .title {
         //         flex: 1;
         //     }
-        
+
         //     .date {
         //         flex: 0 0 auto;
         //     }
@@ -169,11 +170,11 @@ $nebel: map.get($rki-nebel, 400);
                     display: flex;
                     flex-direction: column;
                 }
-               
+
                 .right-column {
                     width: 100%;
                     flex: 1 1 calc(75% - #{$default-component-margin-horizontal * 0.75});
-                    
+
                     @media (min-width: 1235px) {
                         max-width: calc(75% - #{$default-component-margin-horizontal * 0.75});
                     }
@@ -248,10 +249,10 @@ $nebel: map.get($rki-nebel, 400);
                 .left-column {
                     flex: 1 1 calc(25% - #{$default-small-component-margin-horizontal * 0.25});
                 }
-               
+
                 .right-column {
                     flex: 1 1 calc(75% - #{$default-small-component-margin-horizontal * 0.75});
-                    
+
                     @media (min-width: 1235px) {
                         max-width: calc(75% - #{$default-small-component-margin-horizontal * 0.75});
                     }
