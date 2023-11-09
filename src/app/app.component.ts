@@ -9,16 +9,16 @@ import { DatasourceService } from './services/datasource.service';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent implements OnInit {
-  readonly datasource = this.datasourceService.getDatasource();
-  isSmall$: Observable<boolean>;
+export class AppComponent {
+  // readonly datasource = this.datasourceService.getDatasource();
+  // isSmall$: Observable<boolean>;
 
-  constructor(private datasourceService: DatasourceService, private titleService: Title, private breakpointObs: BreakpointObserver){
-    this.isSmall$ = this.breakpointObs.observe([Breakpoints.Small, Breakpoints.XSmall]).pipe(map(x => x.matches))
-  }
-  
-  ngOnInit(): void {
-    this.titleService.setTitle(`Open RKI - ${this.datasource.name}`);
-  }
-  
+  // constructor(private datasourceService: DatasourceService, private titleService: Title, private breakpointObs: BreakpointObserver){
+  //   this.isSmall$ = this.breakpointObs.observe([Breakpoints.Small, Breakpoints.XSmall]).pipe(map(x => x.matches))
+  // }
+
+  // ngOnInit(): void {
+  //   // this.titleService.setTitle(`Open RKI - ${this.datasource.name}`);
+  // }
+
 }

@@ -1,0 +1,37 @@
+<header [class.shrink]="shrinkHeader" [class.small]="isSmall$ | async">
+  <div class="nav-header">
+    <div class="left-col">
+      <div class="link-container">
+        <a routerLink routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" class="nav-link">Datensatz</a>
+        <a routerLink="imprint" routerLinkActive="active" class="nav-link">Impressum</a>
+        <a routerLink="privacy" routerLinkActive="active" class="nav-link">Datenschutzerklärung</a>
+      </div>
+
+      <div class="title-container">
+        <a *ngIf="isSmall$ | async; else betterTitle" class="title" [title]="datasource.name" routerLink>
+          {{datasource.name}}
+        </a>
+
+        <ng-template #betterTitle>
+          <div class="title" [title]="titleService.title">
+            {{titleService.title}}
+          </div>
+        </ng-template>
+
+        <button mat-icon-button class="menu-button" [matMenuTriggerFor]="menu"><mat-icon>menu</mat-icon></button>
+        <mat-menu #menu="matMenu">
+          <button mat-menu-item routerLink routerLinkActive="active"
+            [routerLinkActiveOptions]="{exact: true}">Datensatz</button>
+          <button mat-menu-item routerLink="imprint" routerLinkActive="active">Impressum</button>
+          <button mat-menu-item routerLink="privacy" routerLinkActive="active">Datenschutzerklärung</button>
+        </mat-menu>
+      </div>
+    </div>
+
+    <div class="right-col">
+      <a class="rki-logo-link" href="https://www.rki.de" target="_blank" title="Externer Link - RKI Homepage">
+        <img class="rki-logo" src="../../../assets/RKI_Logo.png" title="Logo Robert Koch - Institut" />
+      </a>
+    </div>
+  </div>
+</header>

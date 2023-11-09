@@ -17,4 +17,8 @@ export class DatasourceTagsComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  trackById(index: number, tag: string) {
+    return tag;
+  }
+
 }

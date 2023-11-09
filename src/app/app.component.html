@@ -1,12 +1,6 @@
-<div class="app-component" [class.small]="isSmall$ | async">
-    <div class="rki-logo-container"><a class="rki-logo" href="https://www.rki.de" target="_blank" title="Externer Link - RKI Homepage"></a></div>
-    <main class="content">
-        <router-outlet></router-outlet>
-    </main>
-    <footer>
-        <div class="footer-wrapper">
-            <a routerLink="imprint">Impressum</a>
-            <a routerLink="privacy">Datenschutz</a>
-        </div>
-    </footer>
+<div class="app-component">
+  <app-nav-header></app-nav-header>
+  <main class="app-content">
+    <router-outlet></router-outlet>
+  </main>
 </div>

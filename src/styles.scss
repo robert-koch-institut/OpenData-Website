@@ -12,10 +12,10 @@
 @import "app/components/markdown-preview/markdown-preview.component.scss";
 @import "app/components/datasource-cite/datasource-cite.component.scss";
 @import "app/components/datasource-contributor-list/datasource-contributor-list.component.scss";
-@import "app/components/datasource-layout/datasource-layout.component.scss";
 @import "app/components/datasource-links/datasource-links.component.scss";
 @import "app/components/datasource-licence/datasource-licence.component.scss";
 @import "app/components/csv-table-filter/csv-table-filter.component.scss";
+@import "app/components/nav-header/nav-header.component.scss";
 @import "app/components/datasource-tags/datasource-tags.component.scss";
 @import "app/components/table-of-content/table-of-content.component.scss";
 @import "app/pages/home-page/home-page.component.scss";
@@ -93,13 +93,13 @@ $theme: map-merge(
 @include image-preview-component($theme);
 @include markdown-preview-component($theme);
 @include datasource-cite-component($theme);
-@include datasource-layout-component($theme);
 @include datasource-contributor-list-component($theme);
 @include datasource-links-component($theme);
 @include datasource-licence-component($theme);
 @include datasource-tags-component($theme);
 @include toc-component($theme);
 @include csv-table-filter-component($theme);
+@include nav-header-component($theme);
 
 @include home-page-component($theme);
 @include privacy-page-component($theme);
@@ -111,6 +111,7 @@ html,
 body {
   padding: 0;
   margin: 0;
+  scroll-behavior: auto !important;
 }
 
 html.cdk-global-scrollblock {

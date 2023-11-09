@@ -1,0 +1,155 @@
+@use '@angular/material' as mat;
+@use 'sass:map';
+@import '/src/constants.scss';
+@import '/src/mixins.scss';
+
+// $typography: mat.define-typography-config();
+@mixin nav-header-component($theme) {
+  $typography: map.get($theme, typography);
+  $foreground: map.get($theme, foreground);
+
+  button.mat-menu-item.active {
+    font-weight: bold;
+  }
+
+  header {
+    position: sticky;
+    top: 0;
+    z-index: 999;
+    background-color: white;
+
+    .nav-header {
+      display: flex;
+      gap: $default-component-margin-horizontal;
+
+      max-width: $max-width;
+      padding: 24px $default-section-margin-horizontal;
+      box-sizing: border-box;
+      margin: 0 auto;
+      color: mat.get-color-from-palette($foreground, text);
+
+      .left-col {
+        display: flex;
+        flex-direction: column;
+
+        flex: 1;
+        gap: $default-component-margin-vertical;
+      }
+
+      .right-col {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-evenly;
+      }
+
+      .title-container {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+
+        .title {
+          @include mat.typography-level($typography, 'title');
+          @include vertical-text-overflow-clamp(1);
+
+          display: none;
+        }
+
+        .menu-button {
+          display: none;
+          margin-left: $default-small-component-margin-horizontal;
+        }
+      }
+
+
+
+      a {
+        color: inherit;
+        text-decoration: none;
+      }
+
+      .nav-link {
+        color: #606060;
+      }
+      .nav-link:hover {
+        text-decoration: underline;
+      }
+      .nav-link.active {
+        font-weight: bold;
+      }
+
+      .link-container {
+        display: flex;
+        flex-direction: row;
+        gap: $default-component-margin-horizontal;
+      }
+
+      .rki-logo-link {
+        display: flex;
+
+        .rki-logo {
+          max-height: 72px;
+          max-width: 100%;
+        }
+      }
+    }
+  }
+
+  // .make-header-as-small-as-possible {
+  //   .nav-header {
+  //     // transition: 0.2s;
+
+  //     // .title {
+  //     //   @include vertical-text-overflow-clamp(1);
+  //     // }
+
+  //     .left-col {
+  //       // transition: 0.2s;
+  //     }
+
+  //     .rki-logo-link {
+  //       .rki-logo {
+  //         // max-height: 64px;
+  //         // transition: 0.2s;
+  //       }
+  //     }
+  //   }
+  // }
+
+  header.small {
+    // @extend .make-header-as-small-as-possible;
+    .nav-header {
+      gap: $default-small-component-margin-horizontal;
+      padding: 12px $default-small-section-margin-horizontal;
+
+      .left-col {
+        justify-content: space-evenly;
+
+        .title {
+          display: -webkit-box;
+        }
+      }
+
+      .menu-button {
+        display: block;
+      }
+
+      .link-container {
+        display: none;
+      }
+    }
+  }
+
+  header.shrink {
+    @include mat.elevation(2);
+
+    .left-col {
+      justify-content: space-evenly;
+
+      .title-container {
+        .title {
+          display: -webkit-box;
+        }
+      }
+    }
+  }
+}

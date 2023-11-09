@@ -4,8 +4,6 @@ import { TableVirtualScrollModule } from 'ng-table-virtual-scroll';
 import { CdkScrollableModule } from '@angular/cdk/scrolling'
 import { AppComponent } from './app.component';
 import { MatToolbarModule } from '@angular/material/toolbar';
-import { DatasourceLayoutItemComponent } from './components/datasource-layout-item/datasource-layout-item.component';
-import { DatasourceLayoutComponent } from './components/datasource-layout/datasource-layout.component';
 import { PortalModule } from '@angular/cdk/portal';
 import { PdfViewerModule } from 'ng2-pdf-viewer';
 import { MatIconModule } from '@angular/material/icon';
@@ -16,6 +14,7 @@ import { MatTreeModule } from '@angular/material/tree';
 import { LayoutModule } from '@angular/cdk/layout';
 import { ScrollingModule } from '@angular/cdk/scrolling';
 import { NgxPageScrollCoreModule } from 'ngx-page-scroll-core';
+import { NgxPageScrollModule } from 'ngx-page-scroll';
 import { FullscreenOverlayContainer, OverlayContainer, OverlayModule } from '@angular/cdk/overlay';
 import { MatInputModule } from '@angular/material/input';
 import { MatCheckboxModule } from '@angular/material/checkbox';
@@ -57,9 +56,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { MtxSliderModule } from '@ng-matero/extensions/slider';
 import { MatRadioModule } from '@angular/material/radio';
 import { AppRoutingModule } from './app-routing.module';
-import { DatasourceContentPageComponent } from './pages/datasource-content-page/datasource-content-page.component';
 import { HomePageComponent } from './pages/home-page/home-page.component';
-import { EmbedPageComponent } from './pages/embed-page/embed-page.component';
 import { DatasourceCardComponent } from './components/datasource-card/datasource-card.component';
 import { DatasourceLinksComponent } from './components/datasource-links/datasource-links.component';
 import { BaseHrefPipe } from './pipes/base-href.pipe';
@@ -77,6 +74,7 @@ import { FileSizePipe } from './pipes/file-size.pipe';
 import { CsvTableFilterComponent } from './components/csv-table-filter/csv-table-filter.component';
 import { DateFnsAdapter, DateFnsModule, MAT_DATE_FNS_FORMATS } from '@angular/material-date-fns-adapter';
 import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
+import { NavHeaderComponent } from './components/nav-header/nav-header.component';
 
 registerLocaleData(localeDe, 'de');
 
@@ -107,8 +105,6 @@ function getBaseHref(platformLocation: PlatformLocation): string {
 @NgModule({
   declarations: [
     AppComponent,
-    DatasourceLayoutComponent,
-    DatasourceLayoutItemComponent,
     DatasourceReadmeComponent,
     DatasourceContentListComponent,
     DatasourceContentPreviewComponent,
@@ -126,9 +122,7 @@ function getBaseHref(platformLocation: PlatformLocation): string {
     AfterComponentInitDirective,
     DatasourceContributorListComponent,
     FileDownloadComponent,
-    DatasourceContentPageComponent,
     HomePageComponent,
-    EmbedPageComponent,
     DatasourceCardComponent,
     DatasourceLinksComponent,
     BaseHrefPipe,
@@ -141,7 +135,8 @@ function getBaseHref(platformLocation: PlatformLocation): string {
     ImprintComponent,
     PrivacyComponent,
     FileSizePipe,
-    CsvTableFilterComponent
+    CsvTableFilterComponent,
+    NavHeaderComponent
   ],
   imports: [
     BrowserAnimationsModule,
@@ -188,7 +183,8 @@ function getBaseHref(platformLocation: PlatformLocation): string {
     TableVirtualScrollModule,
     MatToolbarModule,
     PortalModule,
-    NgxPageScrollCoreModule,
+    NgxPageScrollCoreModule.forRoot({ scrollOffset: 120, duration: 11 }),
+    NgxPageScrollModule,
     AppRoutingModule
   ],
   providers: [
