@@ -1,0 +1,173 @@
+<ng-container *ngIf="filter">
+    <button mat-icon-button class="filter-trigger" cdkOverlayOrigin #trigger="cdkOverlayOrigin"
+        (click)="isOpen = !isOpen">
+        <mat-icon [color]="filter.isActive && 'primary'" [matBadge]="filter.label ? filter.label : ''"
+            [title]="filter.label ? filter.label : ''">filter_list
+        </mat-icon>
+    </button>
+
+    <ng-template cdkConnectedOverlay #overlay="cdkConnectedOverlay" [cdkConnectedOverlayOrigin]="trigger"
+        [cdkConnectedOverlayOpen]="isOpen" (overlayOutsideClick)="onOverlayOutsideClick($event, trigger, overlay)"
+        [cdkConnectedOverlayScrollStrategy]="scrollStrat">
+        <div class="filter-overlay mat-elevation-z12">
+            <div *ngIf="tableCategoryFilter" class="category-filter">
+                <div class="search-field-wrapper" *ngIf="searchEnabled">
+                    <mat-form-field>
+                        <mat-label>Suche</mat-label>
+                        <input matInput placeholder="Suchtext" [(ngModel)]="searchText"
+                            (ngModelChange)="search($event)">
+                    </mat-form-field>
+                    <button mat-icon-button (click)="clearSearch()" title="Suche leeren">
+                        <mat-icon>close</mat-icon>
+                    </button>
+                </div>
+                <mat-selection-list #list (selectionChange)="onSelectionListChange($event)">
+
+                    <mat-list-item *ngIf="!searchResult" class="select-all-list-item">
+                        <mat-checkbox class="select-all"
+                            [checked]="tableCategoryFilter.checkedCategories.length === tableCategoryFilter.categories.length"
+                            [indeterminate]="tableCategoryFilter.checkedCategories.length > 0 && tableCategoryFilter.checkedCategories.length !== tableCategoryFilter.categories.length"
+                            labelPosition="before" (change)="selectAllChanged($event)">
+                            <b><i>Alle</i></b>
+                        </mat-checkbox>
+                    </mat-list-item>
+
+                    <mat-list-item *ngIf="searchResult && searchResult.length === 0">
+                        Keine Treffer für '{{searchText}}'
+                    </mat-list-item>
+
+                    <mat-list-option
+                        *ngFor="let category of (searchResult ?? tableCategoryFilter.categories); trackBy:categoryValue"
+                        [value]="category" [selected]="category.checked">
+                        {{category.value | formatIfNumber}}
+                    </mat-list-option>
+                </mat-selection-list>
+            </div>
+            <div *ngIf="tableNumberFilter" class="number-filter">
+                <mat-list class="range-list">
+                    <mat-list-item>
+                        <mat-radio-button [checked]="tableNumberFilter.value === undefined"
+                            (change)="changeNumberValue()">
+                            <b><i>Alle</i></b>
+                        </mat-radio-button>
+                    </mat-list-item>
+
+                    <mat-list-item>
+                        <mat-radio-button #valueRadio [checked]="isValueNumberFilter" matLine
+                            (change)="changeNumberValue(tableNumberFilter.min)">
+                            {{'Wert' + (isValueNumberFilter ? (' (' + filter.label + ')') : '')}}
+                        </mat-radio-button>
+                    </mat-list-item>
+                    <mat-list-item *ngIf="isValueNumberFilter">
+                        <div class="slider-min-max" *ngIf="isSmallRange; else numericValue">
+                            <span class="min">{{tableNumberFilter.min}}</span>
+                            <mtx-slider #valueSlider thumbLabel [min]="tableNumberFilter.min" matLine
+                                [max]="tableNumberFilter.max" class="slider"
+                                [ngModel]="isValueNumberFilter ? tableNumberFilter.value : tableNumberFilter.min"
+                                (ngModelChange)="changeNumberValue($event)">
+                            </mtx-slider>
+                            <span class="max">{{tableNumberFilter.max}}</span>
+                        </div>
+
+                        <ng-template #numericValue>
+                            <mat-form-field class="number-form-field">
+                                <mat-label>Wert</mat-label>
+                                <input matInput type="number" [min]="tableNumberFilter.min"
+                                    [max]="tableNumberFilter.max" [ngModel]="tableNumberFilter.value"
+                                    (ngModelChange)="changeNumberValue($event)">
+                            </mat-form-field>
+                        </ng-template>
+                    </mat-list-item>
+
+
+                    <mat-list-item>
+                        <mat-radio-button #rangeRadio [checked]="isRangeNumberFilter"
+                            (change)="changeNumberValue([tableNumberFilter.min, tableNumberFilter.max])">
+                            {{'Bereich' + (isRangeNumberFilter ? (' (' + filter.label + ')') : '')}}
+                        </mat-radio-button>
+                    </mat-list-item>
+                    <mat-list-item *ngIf="isRangeNumberFilter && isSmallRange">
+                        <div class="slider-min-max">
+                            <span class="min">{{tableNumberFilter.min}}</span>
+                            <mtx-slider #rangeSlider thumbLabel [min]="tableNumberFilter.min"
+                                [max]="tableNumberFilter.max" class="slider"
+                                [ngModel]="isRangeNumberFilter ? tableNumberFilter.value : [tableNumberFilter.min, tableNumberFilter.max]"
+                                (ngModelChange)="changeNumberValue($event)">
+                            </mtx-slider>
+                            <span class="max">{{tableNumberFilter.max}}</span>
+                        </div>
+                    </mat-list-item>
+
+                    <ng-container *ngIf="isRangeNumberFilter && !isSmallRange">
+                        <mat-list-item>
+                            <mat-form-field class="number-form-field">
+                                <mat-label>Von</mat-label>
+                                <input matInput #inputMin type="number" [min]="tableNumberFilter.min"
+                                    [max]="Math.max(tableNumberFilter.max, inputMax.valueAsNumber)"
+                                    [ngModel]="rangeNumberFilterValue[0]"
+                                    (ngModelChange)="changeNumberValue([$event, inputMax.valueAsNumber])">
+                            </mat-form-field>
+                        </mat-list-item>
+                        <mat-list-item>
+                            <mat-form-field class="number-form-field">
+                                <mat-label>Bis</mat-label>
+                                <input matInput #inputMax type="number"
+                                    [min]="Math.max(tableNumberFilter.min, inputMin.valueAsNumber)"
+                                    [max]="tableNumberFilter.max" [ngModel]="rangeNumberFilterValue[1]"
+                                    (ngModelChange)="changeNumberValue([inputMin.valueAsNumber, $event])">
+                            </mat-form-field>
+                        </mat-list-item>
+                    </ng-container>
+                </mat-list>
+            </div>
+            <div *ngIf="tableDateFilter" class="date-filter">
+                <mat-list class="range-list">
+                    <mat-list-item>
+                        <mat-radio-button [checked]="tableDateFilter.value === undefined" (change)="changeDateValue()">
+                            <b><i>Alle</i></b>
+                        </mat-radio-button>
+                    </mat-list-item>
+
+                    <mat-list-item>
+                        <mat-radio-button #valueRadio [checked]="isValueDateFilter" matLine
+                            (change)="changeDateValue(tableDateFilter.min)">
+                            Wert
+                        </mat-radio-button>
+                    </mat-list-item>
+                    <mat-list-item *ngIf="isValueDateFilter">
+                        <mat-form-field class="date-form-field">
+                            <mat-label>Datum wählen</mat-label>
+                            <input matInput [matDatepicker]="picker" [min]="tableDateFilter.min"
+                                [max]="tableDateFilter.max" [value]="tableDateFilter.value"
+                                (dateChange)="changeDateValue($event.value)">
+                            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                            <mat-datepicker #picker></mat-datepicker>
+                        </mat-form-field>
+                    </mat-list-item>
+
+
+                    <mat-list-item>
+                        <mat-radio-button #rangeRadio [checked]="isRangeDateFilter"
+                            (change)="changeDateValue([tableDateFilter.min, tableDateFilter.max])">
+                            Bereich
+                        </mat-radio-button>
+                    </mat-list-item>
+                    <mat-list-item *ngIf="isRangeDateFilter">
+                        <mat-form-field class="date-form-field">
+                            <mat-label>Datumsbereich wählen</mat-label>
+                            <mat-date-range-input [rangePicker]="picker" [min]="tableDateFilter.min"
+                                [max]="tableDateFilter.max">
+                                <input matStartDate placeholder="Startdatum" [value]="rangeDateFilterValue[0]"
+                                    (dateChange)="changeDateRange(0, $event.value)">
+                                <input matEndDate placeholder="Enddatum" [value]="rangeDateFilterValue[1]"
+                                    (dateChange)="changeDateRange(1, $event.value)">
+                            </mat-date-range-input>
+                            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                            <mat-date-range-picker #picker></mat-date-range-picker>
+                        </mat-form-field>
+                    </mat-list-item>
+                </mat-list>
+            </div>
+        </div>
+    </ng-template>
+</ng-container>

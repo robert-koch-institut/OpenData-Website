@@ -40,8 +40,6 @@
                 margin-left: -0.25em;
             }
 
-            .toggle-button {
-            }
 
             .link-container {
                 max-width: calc(100% - 13px);
@@ -71,12 +69,10 @@
             .toc-item-link {
                 color: inherit;
                 text-decoration: inherit;
+                cursor: pointer;
             }
         }
 
-        .toc-item:first-child {
-            // margin-top: -0.75em;
-        }
     }
 }
 

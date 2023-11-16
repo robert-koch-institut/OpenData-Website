@@ -83,11 +83,15 @@
         white-space: nowrap;
       }
 
+      
+
       .file-lfs-mark {
         color: teal;
       }
 
-      .file-extention {
+      .file-size {
+        flex: 0 0 55px;
+        text-align: right;
       }
 
       .file-download {

@@ -1,6 +1,4 @@
-<div class="home-page">
-
-    <div class="rki-logo-container"><a class="rki-logo" href="https://www.rki.de" target="_blank"></a></div>
+<div class="home-page" [class.small]="isSmall$ | async">
 
     <div class="header">
         <div class="header-image-background">
@@ -8,9 +6,6 @@
                 <div class="title">
                     {{datasource.name}}
                 </div>
-                <!-- <div class="licence-small">
-                    <app-datasource-licence [datasource]="datasource"></app-datasource-licence>
-                </div> -->
             </div>
 
             <div class="author-container">
@@ -47,17 +42,15 @@
                 <app-datasource-licence [datasource]="datasource" mode="large"></app-datasource-licence>
                 <app-datasource-cite [datasource]="datasource"></app-datasource-cite>
             </div>
-            <!-- <div class="filler"></div> -->
             <div class="right-column">
                 <app-datasource-content-list [datasource]="datasource"></app-datasource-content-list>
             </div>
         </div>
     </div>
 
-    <div class="doc-container" [class.small]="isSmall$ | async">
+    <div class="doc-container">
         <div class="left-column">
-            <!-- <div *ngIf="isSmall$ | async">SMALL</div> -->
-            <app-keep-in-view [topOffset]="8">
+            <app-keep-in-view [topOffset]="116">
                 <div class="mat-headline">Dokumentation</div>
 
                 <app-table-of-content [datasource]="datasource">
@@ -69,64 +62,4 @@
         </div>
     </div>
 
-
-    <!-- <app-datasource-layout>
-        
-
-        <app-datasource-layout-item position="authors">
-            
-        </app-datasource-layout-item>
-
-        <app-datasource-layout-item position="toc">
-            <app-table-of-content [datasource]="datasource">
-            </app-table-of-content>
-        </app-datasource-layout-item>
-
-        <app-datasource-layout-item position="contributors">
-            
-        </app-datasource-layout-item>
-
-        <app-datasource-layout-item position="licence-small">
-            
-        </app-datasource-layout-item>
-
-        <app-datasource-layout-item position="licence">
-            <app-datasource-licence [datasource]="datasource" mode="large"></app-datasource-licence>
-        </app-datasource-layout-item>
-
-        <app-datasource-layout-item position="abstract">
-            <h2 class="mat-title" id="abstract">Zusammenfassung</h2>
-            <div class="abstract" [innerHtml]="datasource.description | safeHtml"> </div>
-        </app-datasource-layout-item>
-
-        <app-datasource-layout-item position="tag">
-            <app-datasource-tags [datasource]="datasource"></app-datasource-tags>
-        </app-datasource-layout-item>
-
-        <app-datasource-layout-item position="cite">
-            <app-datasource-cite [datasource]="datasource"></app-datasource-cite>
-        </app-datasource-layout-item>
-
-        <app-datasource-layout-item position="links">
-
-            <app-datasource-links [datasource]="datasource"></app-datasource-links>
-        </app-datasource-layout-item>
-
-        <app-datasource-layout-item position="content">
-            <mat-card>
-                <div class="title-date-container">
-                    <h2 class="title mat-title" id="content">Dateien / Inhalt</h2>
-                    <div class="date">Datenstand: {{datasource.lastUpdated | date}}</div>
-                </div>
-
-                <app-datasource-content-list [datasource]="datasource"></app-datasource-content-list>
-            </mat-card>
-        </app-datasource-layout-item>
-
-        <app-datasource-layout-item position="doc">
-            <div id="documentation"></div>
-            <app-datasource-readme [readme]="datasource.readme" class="markdown-preview"></app-datasource-readme>
-        </app-datasource-layout-item>
-
-    </app-datasource-layout> -->
 </div>

@@ -13,12 +13,11 @@ export class KeepInViewComponent implements OnInit {
 
   @ViewChild('keepInView') keepInViewElement!: ElementRef;
 
-  constructor(private elementRef: ElementRef, private renderer: Renderer2, @Inject(DOCUMENT) private document: any) { }
+  constructor(private elementRef: ElementRef, private renderer: Renderer2) { }
 
   ngOnInit(): void {
   }
 
-  // TODO: auch auf resize achte
   @HostListener('window:resize')
   onResize() {
     _.delay(() => this.onScroll(), 30);
@@ -28,7 +27,7 @@ export class KeepInViewComponent implements OnInit {
   onScroll() {
     const bb = this.elementRef.nativeElement.getBoundingClientRect();
 
-    if (bb.top <= 0) {
+    if (bb.top <= this.topOffset) {
       this.renderer.addClass(this.keepInViewElement.nativeElement, 'fixed');
       this.renderer.setStyle(this.keepInViewElement.nativeElement, 'top', `${this.topOffset}px`);
 

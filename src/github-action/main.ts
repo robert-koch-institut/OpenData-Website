@@ -14,6 +14,7 @@ const ContentPathPredicates: ((x: string) => boolean)[] = [
     x => !_.includes(['LIZENZ', 'LICENSE', 'CITATION.cff'], x)
 ];
 const TagBlacklist: string[] = ['germany', 'deutschland', 'rki'];
+const lfsSizeRegEx = /^size\s(?<size>[0-9]*)$/gm;
 
 async function readDoi(octokit: OctokitApi, repo: { owner: string, repo: string, homepage: string | null }, tree: GithubTreeItem[]) {
     const result = { doi: '', links: [] as ExternalLink[] };
@@ -135,12 +136,21 @@ async function createLfsFileDescriminator(octokit: OctokitApi, repo: { owner: st
     return isLfsFile;
 }
 
-function createFile(item: GithubTreeItem, isLfs: boolean, repo: { repo: string, owner: string }, branch: string): FileDatasourceContent {
+async function createFile(octokit: OctokitApi, item: GithubTreeItem, isLfs: boolean, repo: { repo: string, owner: string }, branch: string): Promise<FileDatasourceContent> {
     if (item.type !== 'blob') {
         throw new Error("Item has to be a 'blob'.");
     }
     if (!item.path) {
         throw new Error('Item needs a path.');
+    }
+
+    const getLfsSize = async (path: string): Promise<number> => {
+        const { data } = await octokit.rest.repos.getContent({ ...repo, path });
+        if (!Array.isArray(data) && data.type === 'file') {
+            return data.size;
+        }
+
+        return 0;
     }
 
     const rawUrl = `https://raw.githubusercontent.com/${repo.owner}/${repo.repo}/${branch}/${item.path}`;
@@ -160,6 +170,10 @@ function createFile(item: GithubTreeItem, isLfs: boolean, repo: { repo: string, 
 
     const name = _.last(item.path!.split('/'));
 
+    const size = isLfs
+        ? await getLfsSize(item.path)
+        : item.size!;
+
     return {
         $type: 'file',
         path: item.path,
@@ -167,37 +181,50 @@ function createFile(item: GithubTreeItem, isLfs: boolean, repo: { repo: string, 
         downloadUrl,
         previewUrl,
         visitUrl,
+        size,
         lfs: isLfs
     }
 }
 
-function treeIt(items: GithubTreeItem[], isLfsFile: (x: string) => boolean, repo: { repo: string, owner: string }, branch: string) {
+async function treeIt(octokit: OctokitApi, items: GithubTreeItem[], isLfsFile: (x: string) => boolean, repo: { repo: string, owner: string }, branch: string) {
+
+
+
     const result: DatasourceContent[] = [];
-    let level: any = { $result: result };
+    const folders = new Map<string, FolderDatasourceContent>();
 
-    items.forEach(item => {
-        if (item.type === 'blob' && item.path) {
-            item.path.split('/').reduce((r, name, i, a) => {
-                if (!r[name]) {
-                    r[name] = { $result: [] };
+    const folderItems = _.orderBy(items.filter(x => x.type === 'tree' && x.path), x => x.path?.length);
+    for (const folder of folderItems) {
+        const splittedPath = folder.path!.split('/');
+        const name = _.last(splittedPath)!;
+        const isRootFolder = splittedPath.length === 1;
 
-                    if (i === a.length - 1) {
-                        r.$result.push(createFile(item, isLfsFile(item.path!), repo, branch))
-                    } else {
-                        const folder: FolderDatasourceContent = {
-                            content: r[name].$result,
-                            path: _.initial(item.path!.split('/')).join('/'),
-                            name,
-                            $type: 'folder'
-                        };
-                        r.$result.push(folder)
-                    }
-                }
-                return r[name];
-            }, level);
-
+        const f: FolderDatasourceContent = {
+            content: [],
+            path: folder.path!,
+            name,
+            $type: 'folder'
         };
-    });
+        folders.set(folder.path!, f);
+        if (isRootFolder) {
+            result.push(f);
+        } else {
+            folders.get(_.initial(splittedPath).join('/'))!.content.push(f);
+        }
+    }
+
+    const fileItems = items.filter(x => x.type === 'blob' && x.path);
+    for (const file of fileItems) {
+        const splittedFilePath = file.path!.split('/');
+        const folderPath = _.initial(splittedFilePath).join('/');
+        const f = await createFile(octokit, file, isLfsFile(file.path!), repo, branch);
+        if (splittedFilePath.length === 1) {
+            result.push(f);
+        } else {
+            folders.get(folderPath)!.content.push(f);
+        }
+    }
+
     return result;
 }
 
@@ -221,7 +248,7 @@ async function run() {
 
     const isLfsFile = await createLfsFileDescriminator(octokit, github.context.repo, tree);
     const relevantTreeItems = tree.filter(node => node.path && ContentPathPredicates.every(x => x(node.path!)));
-    const content = treeIt(relevantTreeItems, isLfsFile, github.context.repo, branch);
+    const content = await treeIt(octokit, relevantTreeItems, isLfsFile, github.context.repo, branch);
     const { doi, links } = await doi$;
     // const tags = (await topics$).data.names.filter(x => !TagBlacklist.includes(x.toLowerCase()));
 

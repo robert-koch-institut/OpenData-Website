@@ -32,9 +32,7 @@ export class TableOfContentComponent implements OnInit, OnChanges, AfterViewInit
   }
 
   ngAfterViewInit(): void {
-    if (this.tocElements && this.tocElements.length > 0) {
-      // this.activateElement(this.tocElements.first.nativeElement);
-    }
+
   }
 
   // private _transformer = (node: TocItem, level: number) => {
@@ -120,7 +118,9 @@ export class TableOfContentComponent implements OnInit, OnChanges, AfterViewInit
 
     const foundH2 = _.findLast(this.tocItems, h2 => {
       const targetElement = scrollContainer.querySelector(`#${decodeURIComponent(h2.fragment)}`)
-      return Math.floor(targetElement.getBoundingClientRect().top) <= 0;
+      const top = Math.floor(targetElement.getBoundingClientRect().top);
+      // console.log("CHECKING", targetElement, top)
+      return top <= 136 // topoffset (120) + margin (16);
     });
 
     if (foundH2) {
@@ -128,7 +128,9 @@ export class TableOfContentComponent implements OnInit, OnChanges, AfterViewInit
 
       const foundH3 = _.findLast(foundH2.children, h3 => {
         const targetElement = scrollContainer.querySelector(`#${decodeURIComponent(h3.fragment)}`)
-        return Math.floor(targetElement.getBoundingClientRect().top) <= 0;
+        const top = Math.floor(targetElement.getBoundingClientRect().top);
+        // console.log("CHECKING", targetElement, top)
+        return top <= 136;
       });
 
       if (foundH3) {
@@ -164,6 +166,7 @@ export class TableOfContentComponent implements OnInit, OnChanges, AfterViewInit
       rect.right <= (this.document.documentElement.clientWidth)
     );
   };
+
 
   // private activateElement(element: HTMLElement) {
   //   console.log("activated", element);

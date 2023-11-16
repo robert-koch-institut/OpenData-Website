@@ -8,11 +8,15 @@
                     </div>
 
                     <span class="file-name file-item-element" [title]="file.name" (click)="showPreview(file)">{{file.name | filenameBeautify}}</span>
+
                     <!-- <span *ngIf="file.lfs" class="file-lfs-mark file-item-element" (click)="showPreview(file)">LFS</span> -->
                     <div class="file-extention file-item-element" (click)="showPreview(file)">
                         {{file.name | datasourceContentExt | uppercase }}
                     </div>
 
+                    <div class="file-size file-item-element" [title]="file.size | fileSize">
+                        {{file.size | fileSize}}
+                    </div>
 
                     <a mat-raised-button color="accent" class="file-download" (click)="startDownload(file)" download>
                         <!-- <mat-icon>file_download</mat-icon> -->

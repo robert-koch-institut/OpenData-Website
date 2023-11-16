@@ -1,0 +1,106 @@
+@use "sass:map";
+@use "sass:math";
+@use "@angular/material" as mat;
+
+@mixin csv-table-filter-component($theme) {
+    $color-config: mat.get-color-config($theme);
+
+    $primary-palette: map.get($color-config, "primary");
+    $accent-palette: map.get($color-config, "accent");
+    $background-palette: map.get($color-config, "background");
+
+    .filter-overlay {
+        max-height: 500px;
+        max-width: 300px;
+        min-height: 150px;
+        overflow-y: auto;
+        background: mat.get-color-from-palette($background-palette, "dialog");
+
+        .category-filter {
+            .search-field-wrapper {
+                display: flex;
+                flex-direction: row;
+                align-items: baseline;
+                padding: 8px 16px 0 16px;
+
+                mat-form-field {
+                    flex: 1;
+
+                    .mat-form-field-wrapper {
+                        margin-bottom: -1.25em;
+                    }
+                }
+
+                button {
+                    flex: 0 0 25px;
+                }
+            }
+
+            .select-all-list-item:hover {
+                background: rgba(0, 0, 0, 0.04);
+            }
+
+            mat-checkbox.select-all {
+                width: 100%;
+                .mat-checkbox-layout {
+                    width: 100%;
+                    .mat-checkbox-label {
+                        flex: 1;
+                    }
+                }
+            }
+        }
+
+        .number-filter {
+            .slider-min-max {
+                display: inline-flex;
+                align-items: center;
+
+                .min,
+                .max {
+                    flex: 0 0 auto;
+                }
+
+                .slider {
+                    flex: 1;
+                    width: 100%;
+                    overflow: visible;
+
+                    &.mtx-slider-disabled {
+                        .mtx-slider-thumb {
+                            background-color: rgb(189, 189, 189) !important;
+                        }
+                    }
+                }
+            }
+
+            .number-form-field {
+                font-size: 14px;
+                overflow: hidden;
+
+                .mat-form-field-wrapper {
+                    margin-bottom: -1.25em;
+                }
+            }
+
+            .range-list {
+                padding-bottom: 8px;
+            }
+        }
+
+        .date-filter {
+            .date-form-field {
+                font-size: 14px;
+                overflow: hidden;
+
+                .mat-form-field-wrapper {
+                    margin-bottom: -1.25em;
+                }
+            }
+
+            .range-list {
+                padding-bottom: 8px;
+            }
+        }
+    }
+}
