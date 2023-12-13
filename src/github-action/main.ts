@@ -11,7 +11,7 @@ import { load } from 'js-yaml';
 const DefaultBranch: string = 'master';
 const ContentPathPredicates: ((x: string) => boolean)[] = [
     x => !x.startsWith('.') && !x.startsWith('Archiv'),
-    x => !_.includes(['LIZENZ', 'LICENSE', 'CITATION.cff'], x)
+    x => !_.includes(['lizenz', 'license', 'citation.cff'], x.toLowerCase())
 ];
 const TagBlacklist: string[] = ['germany', 'deutschland', 'rki'];
 const lfsSizeRegEx = /^size\s(?<size>[0-9]*)$/gm;
