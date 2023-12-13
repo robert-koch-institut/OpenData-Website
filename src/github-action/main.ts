@@ -249,10 +249,10 @@ async function run() {
 
     const isLfsFile = await createLfsFileDescriminator(octokit, github.context.repo, tree);
 
-    const debugFiles = tree.map(node => `${node.path} (predicate: ${ContentPathPredicates.every(x => x(node.path!))})`);
-    core.info("### TREE ###");
-    debugFiles.forEach(x => core.info(x));
-    core.info("############")
+    // const debugFiles = tree.map(node => `${node.path} (predicate: ${ContentPathPredicates.every(x => x(node.path!))})`);
+    // core.info("### TREE ###");
+    // debugFiles.forEach(x => core.info(x));
+    // core.info("############")
 
     const relevantTreeItems = tree.filter(node => node.path && ContentPathPredicates.every(x => x(node.path!)));
 

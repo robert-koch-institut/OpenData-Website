@@ -3390,10 +3390,10 @@ function run() {
         const doi$ = readDoi(octokit, Object.assign(Object.assign({}, github.context.repo), { homepage: repo.homepage }), tree);
         const readmeContent$ = readReadmeMd(octokit, github.context.repo, branch, tree);
         const isLfsFile = yield createLfsFileDescriminator(octokit, github.context.repo, tree);
-        const debugFiles = tree.map(node => `${node.path} (predicate: ${ContentPathPredicates.every(x => x(node.path))})`);
-        core.info("### TREE ###");
-        debugFiles.forEach(x => core.info(x));
-        core.info("############");
+        // const debugFiles = tree.map(node => `${node.path} (predicate: ${ContentPathPredicates.every(x => x(node.path!))})`);
+        // core.info("### TREE ###");
+        // debugFiles.forEach(x => core.info(x));
+        // core.info("############")
         const relevantTreeItems = tree.filter(node => node.path && ContentPathPredicates.every(x => x(node.path)));
         const content = yield treeIt(octokit, relevantTreeItems, isLfsFile, github.context.repo, branch);
         const { doi, links } = yield doi$;
