@@ -1,4 +1,4 @@
-name: "Bulid and deploy Opendata-Website"
+name: "Build and deploy Opendata-Website"
 description: "Die Action - Bulid and deploy Opendata-Website - erzeugt und deployed eine Datensatz Website des aufrufenden Datensatz-Repositories"
 inputs:
   GH_TOKEN:
