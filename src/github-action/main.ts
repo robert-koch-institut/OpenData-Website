@@ -7,6 +7,7 @@ import { removeHtmlTags, replaceRelativeRootUrls } from './md-helpers';
 import { Contributor, ExternalLink, ZenodoJson, OctokitApi, GithubTreeItem, ContentFile, DatasourceContent, FolderDatasourceContent, FileDatasourceContent, OpenDataDatasource, CitationCff } from './models'
 import * as _ from 'lodash';
 import { load } from 'js-yaml';
+import { debug } from 'console';
 
 const DefaultBranch: string = 'master';
 const ContentPathPredicates: ((x: string) => boolean)[] = [
@@ -247,7 +248,14 @@ async function run() {
     const readmeContent$ = readReadmeMd(octokit, github.context.repo, branch, tree);
 
     const isLfsFile = await createLfsFileDescriminator(octokit, github.context.repo, tree);
+
+    const debugFiles = tree.map(node => `${node.path} (predicate: ${ContentPathPredicates.every(x => x(node.path!))})`);
+    core.info("### TREE ###");
+    debugFiles.forEach(x => core.info(x));
+    core.info("############")
+
     const relevantTreeItems = tree.filter(node => node.path && ContentPathPredicates.every(x => x(node.path!)));
+
     const content = await treeIt(octokit, relevantTreeItems, isLfsFile, github.context.repo, branch);
     const { doi, links } = await doi$;
     // const tags = (await topics$).data.names.filter(x => !TagBlacklist.includes(x.toLowerCase()));
