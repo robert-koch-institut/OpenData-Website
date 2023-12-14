@@ -3184,7 +3184,7 @@ const js_yaml_1 = __nccwpck_require__(1917);
 const DefaultBranch = 'master';
 const ContentPathPredicates = [
     x => !x.startsWith('.') && !x.startsWith('Archiv'),
-    x => !_.includes(['LIZENZ', 'LICENSE', 'CITATION.cff'], x)
+    x => !_.includes(['lizenz', 'license', 'citation.cff'], x.toLowerCase())
 ];
 const TagBlacklist = ['germany', 'deutschland', 'rki'];
 const lfsSizeRegEx = /^size\s(?<size>[0-9]*)$/gm;
@@ -3390,6 +3390,10 @@ function run() {
         const doi$ = readDoi(octokit, Object.assign(Object.assign({}, github.context.repo), { homepage: repo.homepage }), tree);
         const readmeContent$ = readReadmeMd(octokit, github.context.repo, branch, tree);
         const isLfsFile = yield createLfsFileDescriminator(octokit, github.context.repo, tree);
+        // const debugFiles = tree.map(node => `${node.path} (predicate: ${ContentPathPredicates.every(x => x(node.path!))})`);
+        // core.info("### TREE ###");
+        // debugFiles.forEach(x => core.info(x));
+        // core.info("############")
         const relevantTreeItems = tree.filter(node => node.path && ContentPathPredicates.every(x => x(node.path)));
         const content = yield treeIt(octokit, relevantTreeItems, isLfsFile, github.context.repo, branch);
         const { doi, links } = yield doi$;

@@ -50,7 +50,7 @@ export class DatasourceCiteComponent implements OnInit, OnChanges {
         if (i === 0) {
           prev += curr;
         } else if (isLast) {
-          prev += `und ${curr}`
+          prev += ` und ${curr}`
         } else {
           prev += `, ${curr}`
         }
