@@ -15,8 +15,7 @@ runs:
     - name: Pull OpenDataPage
       uses: actions/checkout@v6
       with:
-        repository: "eckelmannf/OpenData-Website"
-        #repository: "robert-koch-institut/OpenData-Website"
+        repository: "robert-koch-institut/OpenData-Website"
 
     - name: Create datasource.json
       uses: ./createDatasourceJsonAction
